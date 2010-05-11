@@ -1,0 +1,86 @@
+NAME
+    Pod::Weaver::Section::Support - add a SUPPORT pod section
+
+VERSION
+      This document describes v0.006 of Pod::Weaver::Section::Support - released May 11, 2010 as part of Pod-Weaver-Section-Support.
+
+DESCRIPTION
+    This section plugin will produce a hunk of pod that lists the common
+    support websites and an explanation of how to report bugs. It will do
+    this only if it is being built with Dist::Zilla because it needs the
+    data from the dzil object.
+
+    This is added ONLY to the main module's POD, because it would be a waste
+    of space to add it to all modules in the dist.
+
+    For an example of what the hunk looks like, look at the "SUPPORT"
+    section in this POD :)
+
+SUPPORT
+    You can find documentation for this module with the perldoc command.
+
+      perldoc Pod::Weaver::Section::Support
+
+  Websites
+    *   Search CPAN
+
+        <http://search.cpan.org/dist/Pod-Weaver-Section-Support>
+
+    *   AnnoCPAN: Annotated CPAN documentation
+
+        <http://annocpan.org/dist/Pod-Weaver-Section-Support>
+
+    *   CPAN Ratings
+
+        <http://cpanratings.perl.org/d/Pod-Weaver-Section-Support>
+
+    *   CPAN Forum
+
+        <http://cpanforum.com/dist/Pod-Weaver-Section-Support>
+
+    *   RT: CPAN's Bug Tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Pod-Weaver-Section-Support
+        >
+
+    *   CPANTS Kwalitee
+
+        <http://cpants.perl.org/dist/overview/Pod-Weaver-Section-Support>
+
+    *   CPAN Testers Results
+
+        <http://cpantesters.org/distro/P/Pod-Weaver-Section-Support.html>
+
+    *   CPAN Testers Matrix
+
+        <http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
+
+    *   Source Code Repository
+
+        The code is open to the world, and available for you to hack on.
+        Please feel free to browse it and play with it, or whatever. If you
+        want to contribute patches, please send me a diff or prod me to pull
+        from your repository :)
+
+        <http://github.com/apocalypse/perl-pod-weaver-section-support>
+
+  Bugs
+    Please report any bugs or feature requests to
+    "bug-pod-weaver-section-support at rt.cpan.org", or through the web
+    interface at
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Section-Suppo
+    rt>. I will be notified, and then you'll automatically be notified of
+    progress on your bug as I make changes.
+
+AUTHOR
+      Apocalypse <APOCAL@cpan.org>
+
+COPYRIGHT AND LICENSE
+    This software is copyright (c) 2010 by Apocalypse.
+
+    This is free software; you can redistribute it and/or modify it under
+    the same terms as the Perl 5 programming language system itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this distribution.
+

@@ -1,0 +1,16 @@
+Build.PL
+Changes
+CommitLog
+INSTALL
+LICENSE
+MANIFEST
+MANIFEST.SKIP
+META.json
+META.yml
+Makefile.PL
+README
+dist.ini
+examples/weaver.ini
+lib/Pod/Weaver/Section/Support.pm
+t/00-compile.t
+t/apocalypse.t

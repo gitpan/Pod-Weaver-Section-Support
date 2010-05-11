@@ -1,0 +1,71 @@
+==============================
+9999-99-99 99:99:99 +0000 HEAD
+==============================
+
+  commit aac61d134fca8b0e4f83418fe5a5cac932abc52c
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 10:05:51 2010 -0700
+  
+    more tweaks 
+
+=======================================
+2010-05-10 23:26:34 -0700 release-0.005
+=======================================
+
+  commit 7ead60c50478154bb6baadf13e106ca362d685b5
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:26:34 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.005 
+
+=======================================
+2010-05-10 23:25:05 -0700 release-0.004
+=======================================
+
+  commit 3f53b7b71156b2aa254f8943308f8c64018c3259
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:25:05 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.004
+
+  commit 6256925c2c99cf5988765a53574034d170910126
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:24:55 2010 -0700
+  
+    add example weaver.ini 
+
+=======================================
+2010-05-10 23:16:20 -0700 release-0.003
+=======================================
+
+  commit c10e5ed3f28077dd0f8511ff55d4bc0f1478ab64
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:16:20 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.003
+
+  commit fa6815b98147ec528d2a314c6fa452749bcc79a4
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:16:09 2010 -0700
+  
+    more munging of Changes 
+
+=======================================
+2010-05-10 23:13:57 -0700 release-0.002
+=======================================
+
+  commit c606b25933124b136122f7d8f5c30ddcc2b8cd97
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:13:57 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.002
+
+  commit e930672cf48d3fb9664d64b157cfe92641532c39
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon May 10 23:13:43 2010 -0700
+  
+    add Eclipse stuff 
+
+===================================
+End of changes in the last 365 days
+===================================
