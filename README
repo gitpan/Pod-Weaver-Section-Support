@@ -2,7 +2,7 @@ NAME
     Pod::Weaver::Section::Support - add a SUPPORT pod section
 
 VERSION
-      This document describes v0.006 of Pod::Weaver::Section::Support - released May 11, 2010 as part of Pod-Weaver-Section-Support.
+      This document describes v0.010 of Pod::Weaver::Section::Support - released May 28, 2010 as part of Pod-Weaver-Section-Support.
 
 DESCRIPTION
     This section plugin will produce a hunk of pod that lists the common

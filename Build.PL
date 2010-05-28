@@ -19,7 +19,7 @@ my %module_build_args = (
     'Apocalypse <APOCAL@cpan.org>'
   ],
   'dist_name' => 'Pod-Weaver-Section-Support',
-  'dist_version' => '0.006',
+  'dist_version' => '0.010',
   'license' => 'perl',
   'module_name' => 'Pod::Weaver::Section::Support',
   'recommends' => {},

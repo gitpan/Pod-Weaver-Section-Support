@@ -2,6 +2,82 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit 6e0d0f2d775fda8fb060780bd36673b0864776bb
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Fri May 28 10:41:25 2010 -0700
+  
+    use is_pod=1 to set a different stopword POD section
+
+  commit 3dc4c2bd4e2791555474447db3bca940e4a6e77c
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun May 16 10:05:39 2010 -0700
+  
+    use one line for stopwords instead of multiple lines 
+
+=======================================
+2010-05-12 18:42:24 -0700 release-0.009
+=======================================
+
+  commit cf5e4ad0d54bada57e01784e6d8cceb621882b08
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed May 12 18:42:24 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.009
+
+  commit 959e2e1e09e97a8dace9034b05cd4763c6c4913f
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed May 12 00:45:47 2010 -0700
+  
+    add podcoverage stuff 
+
+=======================================
+2010-05-11 21:50:07 -0700 release-0.008
+=======================================
+
+  commit 11d06f193ba4ef25f87b0a15536943be2286a0c0
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 21:50:07 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.008
+
+  commit 23de49979f851c98d08ffaead84da0360689ef6b
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 21:49:56 2010 -0700
+  
+    fix how the stopword list is generated for Pod::Spell
+
+  commit a87d92fb528d82e02e930e047077d08a289095e5
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 14:14:00 2010 -0700
+  
+    add stopwords for this specific module, ha 
+
+=======================================
+2010-05-11 14:12:32 -0700 release-0.007
+=======================================
+
+  commit e8f6c168debb234c9b1e54021378437947f4a928
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 14:12:32 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.007
+
+  commit e01972ac58ca4e2cd50d71b3dc29fc2e58efcfb9
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 14:12:25 2010 -0700
+  
+    add more stopwords 
+
+=======================================
+2010-05-11 10:06:09 -0700 release-0.006
+=======================================
+
+  commit 02d0eb13a7488322d61f980f60f57df2d6a433cc
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Tue May 11 10:06:09 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.006
+
   commit aac61d134fca8b0e4f83418fe5a5cac932abc52c
   Author: Apocalypse <perl@0ne.us>
   Date:   Tue May 11 10:05:51 2010 -0700

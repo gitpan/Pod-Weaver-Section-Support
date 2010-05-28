@@ -9,7 +9,7 @@
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
 BEGIN {
-  $Pod::Weaver::Section::Support::VERSION = '0.006';
+  $Pod::Weaver::Section::Support::VERSION = '0.010';
 }
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
@@ -24,6 +24,7 @@ use Pod::Weaver::Role::Section 3.100710;
 with 'Pod::Weaver::Role::Section';
 
 sub weave_section {
+	## no critic ( ProhibitAccessOfPrivateData )
 	my ($self, $document, $input) = @_;
 
 	my $zilla = $input->{zilla} or return;
@@ -43,10 +44,11 @@ sub weave_section {
 		# Add the stopwords so the spell checker won't complain!
 		Pod::Elemental::Element::Pod5::Region->new( {
 			format_name => 'stopwords',
+			is_pod => 1,
 			content => '',
 			children => [
 				Pod::Elemental::Element::Pod5::Ordinary->new( {
-					content => 'CPAN AnnoCPAN RT CPANTS Kwalitee',
+					content => join( " ", qw( CPAN AnnoCPAN RT CPANTS Kwalitee diff ) ),
 				} ),
 			],
 		} ),
@@ -137,13 +139,17 @@ sub _make_item {
 __END__
 =pod
 
+=for Pod::Coverage weave_section
+
+=for stopwords dist dzil
+
 =head1 NAME
 
 Pod::Weaver::Section::Support - add a SUPPORT pod section
 
 =head1 VERSION
 
-  This document describes v0.006 of Pod::Weaver::Section::Support - released May 11, 2010 as part of Pod-Weaver-Section-Support.
+  This document describes v0.010 of Pod::Weaver::Section::Support - released May 28, 2010 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
@@ -156,7 +162,7 @@ modules in the dist.
 
 For an example of what the hunk looks like, look at the L</SUPPORT> section in this POD :)
 
-=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee
+=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff
 
 =head1 SUPPORT
 
