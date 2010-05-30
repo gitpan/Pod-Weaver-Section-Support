@@ -9,7 +9,7 @@
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
 BEGIN {
-  $Pod::Weaver::Section::Support::VERSION = '0.010';
+  $Pod::Weaver::Section::Support::VERSION = '1.000';
 }
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
@@ -38,7 +38,15 @@ sub weave_section {
 	my $lc_dist = lc( $dist );
 	my $perl_name = $dist;
 	$perl_name =~ s/-/::/g;
-	my $repository = $zilla->distmeta->{resources}{repository} or die 'repository not present in distmeta';
+	my $repository;
+	if ( exists $zilla->distmeta->{resources}{repository} ) {
+		$repository = $zilla->distmeta->{resources}{repository};
+
+		# for dzil v3 with CPAN Meta v2
+		if ( ref $repository ) {
+			$repository = $repository->{url};
+		}
+	}
 
 	$document->children->push(
 		# Add the stopwords so the spell checker won't complain!
@@ -80,6 +88,7 @@ EOPOD
 								_make_item( 'CPANTS Kwalitee', "L<http://cpants.perl.org/dist/overview/$dist>" ),
 								_make_item( 'CPAN Testers Results', "L<http://cpantesters.org/distro/$first_char/$dist.html>" ),
 								_make_item( 'CPAN Testers Matrix', "L<http://matrix.cpantesters.org/?dist=$dist>" ),
+							( defined $repository ?
 								_make_item( 'Source Code Repository', <<EOPOD
 The code is open to the world, and available for you to hack on. Please feel free to browse it and play
 with it, or whatever. If you want to contribute patches, please send me a diff or prod me to pull
@@ -87,7 +96,9 @@ from your repository :)
 
 L<$repository>
 EOPOD
-								),
+
+								)
+: () ),
 								Pod::Elemental::Element::Pod5::Command->new( {
 									command => 'back',
 									content => '',
@@ -141,7 +152,7 @@ __END__
 
 =for Pod::Coverage weave_section
 
-=for stopwords dist dzil
+=for stopwords dist dzil repo
 
 =head1 NAME
 
@@ -149,13 +160,16 @@ Pod::Weaver::Section::Support - add a SUPPORT pod section
 
 =head1 VERSION
 
-  This document describes v0.010 of Pod::Weaver::Section::Support - released May 28, 2010 as part of Pod-Weaver-Section-Support.
+  This document describes v1.000 of Pod::Weaver::Section::Support - released May 30, 2010 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
 This section plugin will produce a hunk of pod that lists the common support websites
 and an explanation of how to report bugs. It will do this only if it is being built with L<Dist::Zilla>
 because it needs the data from the dzil object.
+
+If you have L<Dist::Zilla::Plugin::Repository> enabled in your F<dist.ini>, an extra link will be added
+for the repo.
 
 This is added B<ONLY> to the main module's POD, because it would be a waste of space to add it to all
 modules in the dist.
@@ -250,8 +264,6 @@ This software is copyright (c) 2010 by Apocalypse.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
-The full text of the license can be found in the F<LICENSE> file included with this distribution.
 
 =cut
 

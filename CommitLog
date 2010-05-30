@@ -2,6 +2,34 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit eb1ae90464a06699b5444cb38608f0de1865c8ce
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun May 30 11:03:32 2010 -0700
+  
+    fix gitignore for the last time
+
+  commit 8af3ba6dbd1f5c22282df40090322b10e8a7f60b
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun May 30 10:58:26 2010 -0700
+  
+    fix gitignore problem
+
+  commit 8eb54cab0da595706b15cc4174b6a315e131a672
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sat May 29 13:28:28 2010 -0700
+  
+    add dzil v3 support 
+
+=======================================
+2010-05-28 10:41:59 -0700 release-0.010
+=======================================
+
+  commit 9a4c58837b41b13103550dbb524e900e450d1a77
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Fri May 28 10:41:59 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v0.010
+
   commit 6e0d0f2d775fda8fb060780bd36673b0864776bb
   Author: Apocalypse <perl@0ne.us>
   Date:   Fri May 28 10:41:25 2010 -0700
