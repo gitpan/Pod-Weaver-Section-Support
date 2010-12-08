@@ -2,6 +2,72 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit 75389d8371967b980846cf5324ee03d35aba900a
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Dec 8 00:35:34 2010 -0700
+  
+    reformat some text
+
+  commit 922eeefe8d745ae244ecd4f207101ca40f672e97
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Dec 8 00:04:27 2010 -0700
+  
+    massive change to add lots of new features, yay
+
+  commit 996e9ce8a1107972cd2a0e660a6c56368590cf01
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun Dec 5 23:12:40 2010 -0700
+  
+    merge in changes from RWSTAUNER regarding repository control,
+    thanks\!
+
+  commit f9c8bc661828985bcd6bc776952b5ce448c75204
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sat Dec 4 16:32:55 2010 -0700
+  
+    move source code into separate header
+
+  commit 781117572251df9edcbe5031aa3210661b7154c1
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sat Dec 4 16:00:38 2010 -0700
+  
+    tweak dist.ini
+
+  commit 8e46473961de77abf377f7037e9c84f414943342
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sat Dec 4 15:13:20 2010 -0700
+  
+    tweak dist.ini to remove redundant stuff from global config.ini
+
+  commit 06df2c4aa6e7c6ab869961b001b742519b5ee260
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sat Dec 4 15:00:02 2010 -0700
+  
+    refactored repo stuff to make it more clearer + integrate META v2
+    stuff
+
+  commit 559cabc61394710aace59b0d0006e6296742ca58
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun May 30 11:05:08 2010 -0700
+  
+    released tarball 
+
+=======================================
+2010-05-30 11:03:58 -0700 release-1.000
+=======================================
+
+  commit 9417a91dca255636d2e5fa08a3f69507bdc00676
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Sun May 30 11:03:58 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v1.000
+
+    Released: 2010-05-30 18:03:49 UTC
+
+    Work with CPAN Meta v2 by recognizing the repository
+
+    Make the repository hunk of POD optional
+
   commit eb1ae90464a06699b5444cb38608f0de1865c8ce
   Author: Apocalypse <perl@0ne.us>
   Date:   Sun May 30 11:03:32 2010 -0700

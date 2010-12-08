@@ -1,0 +1,40 @@
+This file contains message digests of all files listed in MANIFEST,
+signed via the Module::Signature module, version 0.66.
+
+To verify the content in this distribution, first make sure you have
+Module::Signature installed, then type:
+
+    % cpansign -v
+
+It will check each file's integrity, as well as the signature's
+validity.  If "==> Signature verified OK! <==" is not displayed,
+the distribution may already have been compromised, and you should
+not run its Makefile.PL or Build.PL.
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SHA1 fe7fe688a0018669410ec0146b484ce9bda2914c Build.PL
+SHA1 c912138a8e277ea661ca383611236647f7d7b103 Changes
+SHA1 03d0b30d7f138e50846414cf2fe90ff876ef1380 CommitLog
+SHA1 0c84a03e147f150fd10c2467ccc96e4931af6875 INSTALL
+SHA1 4453307b3cf4463122d8a2d52a3742997562eabd LICENSE
+SHA1 12d173708a93b502baa34168f883d676a0cfa1bc MANIFEST
+SHA1 6430d4d9b3946f21c060c77734c097df525dbc8f MANIFEST.SKIP
+SHA1 c2480244eab6aa0f5b08c7850c39640cfa8d9c9a META.json
+SHA1 ba69d6aa8e752c71e2a2dac7a267eed551799d70 META.yml
+SHA1 bac95ed0a9ddadd8529b1b6c1f36cc99ea494663 Makefile.PL
+SHA1 9499439a4e3a33ddee451cc24e300bf7d32fb1f8 README
+SHA1 7a72209ad9499808212a929a71cc58bfc94aa674 dist.ini
+SHA1 4bf296054b81b5dfbaf9567a47f9371b754bded7 examples/weaver.ini
+SHA1 b3c01af392047b897b2552ab2e3c9e02ee825ce2 lib/Pod/Weaver/Section/Support.pm
+SHA1 f8ca3b7d690ce98de47d23fb62644b56ed2bb221 t/00-compile.t
+SHA1 a1a3957a9f390352d067d37ea883bc2544d4e2dd t/000-report-versions-tiny.t
+SHA1 eb0e2c9e71bd6a9482fe0b5daffc0756fa7fcc95 t/apocalypse.t
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.9 (GNU/Linux)
+
+iEYEARECAAYFAkz/NVUACgkQGfr7vsGKgxwIdwCg7ZRGqqAxTWes/NyYIM1OH2WC
+e7QAoMB0GtvznGH8XluHKAH0ll8mmB2D
+=e9t9
+-----END PGP SIGNATURE-----

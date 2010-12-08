@@ -2,7 +2,7 @@ NAME
     Pod::Weaver::Section::Support - add a SUPPORT pod section
 
 VERSION
-      This document describes v1.000 of Pod::Weaver::Section::Support - released May 30, 2010 as part of Pod-Weaver-Section-Support.
+      This document describes v1.001 of Pod::Weaver::Section::Support - released December 08, 2010 as part of Pod-Weaver-Section-Support.
 
 DESCRIPTION
     This section plugin will produce a hunk of pod that lists the common
@@ -10,8 +10,8 @@ DESCRIPTION
     this only if it is being built with Dist::Zilla because it needs the
     data from the dzil object.
 
-    If you have Dist::Zilla::Plugin::Repository enabled in your dist.ini, an
-    extra link will be added for the repo.
+    If you have Dist::Zilla::Plugin::Repository enabled in your dist.ini, be
+    sure to check the repository_link attribute!
 
     This is added ONLY to the main module's POD, because it would be a waste
     of space to add it to all modules in the dist.
@@ -19,15 +19,122 @@ DESCRIPTION
     For an example of what the hunk looks like, look at the "SUPPORT"
     section in this POD :)
 
+ATTRIBUTES
+  all_modules
+    Enable this if you want to add the SUPPORT section to all the modules in
+    a dist, not only the main one.
+
+    The default is false.
+
+  bugs
+    Specify the bugtracker you want to use. You can use the CPAN RT tracker
+    or your own, specified in the metadata.
+
+    Valid options are: "rt", "metadata", or "none"
+
+    If you pick the "rt" option, this module will generate a predefined
+    block of text explaining how to use the RT system.
+
+    If you pick the "metadata" option, this module will check the
+    Dist::Zilla metadata for the bugtracker to display.
+
+    The default is "rt".
+
+  perldoc
+    Specify if you want the paragraph explaining about perldoc to be
+    displayed or not.
+
+    The default is true.
+
+  websites
+    Specify what website links you want to see. This is an array, and you
+    can pick any combination. You can also specify it as a comma-delimited
+    string. The ordering of the options are important, as they are reflected
+    in the final POD.
+
+    Valid options are: "none", "search", "rt", "anno", "ratings", "forum",
+    "kwalitee", "testers", "testmatrix" and "all".
+
+    The default is "all".
+
+            # Where the links go to:
+            search          - http://search.cpan.org/dist/$dist
+            rt              - http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist
+            anno            - http://annocpan.org/dist/$dist
+            ratings         - http://cpanratings.perl.org/d/$dist
+            forum           - http://cpanforum.com/dist/$dist
+            kwalitee        - http://cpants.perl.org/dist/overview/$dist
+            testers         - http://cpantesters.org/distro/$first_char/$dist.html
+            testmatrix      - http://matrix.cpantesters.org/?dist=$dist
+
+            # in weaver.ini
+            [Support]
+            websites = search
+            websites = forum
+            websites = testers , testmatrix
+
+    P.S. If you know other websites that I should include here, please let
+    me know!
+
+  irc
+    Specify an IRC server/channel/nick for online support. You can specify
+    as many networks/channels as you want. The ordering of the options are
+    important, as they are reflected in the final POD.
+
+    You specify a network, then a list of channels/nicks to ask for support.
+
+    The default is none.
+
+            # in weaver.ini
+            [Support]
+            irc = irc.home.org, #support, supportbot
+            irc = irc.acme.com, #acmecorp, #acmehelp, #acmenewbies
+
+  irc_content
+    Specify the content to be displayed before the irc network/channel list.
+
+    The default is a sufficient explanation (see "SUPPORT").
+
+  repository_link
+    Specify which url to use when composing the external link. The value
+    corresponds to the repository meta resources (for dzil v3 with CPAN Meta
+    v2).
+
+    Valid options are: "url", "web", "both", or "none".
+
+    "both" will include links to both the "url" and "web" in separate POD
+    paragraphs.
+
+    "none" will skip the repository item entirely.
+
+    The default is "both".
+
+    An error will be thrown if a specified link is not found because if you
+    said that you wanted it you probably expect it to be there.
+
+  repository_content
+    Text displayed before the link to the source code repository.
+
+    The default is a sufficient explanation (see "SUPPORT").
+
 SUPPORT
     You can find documentation for this module with the perldoc command.
 
       perldoc Pod::Weaver::Section::Support
 
   Websites
+    The following websites have more information about this module, and may
+    be of help to you. As always, in addition to those websites please use
+    your favorite search engine to discover more resources.
+
     *   Search CPAN
 
         <http://search.cpan.org/dist/Pod-Weaver-Section-Support>
+
+    *   RT: CPAN's Bug Tracker
+
+        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Pod-Weaver-Section-Support
+        >
 
     *   AnnoCPAN: Annotated CPAN documentation
 
@@ -41,11 +148,6 @@ SUPPORT
 
         <http://cpanforum.com/dist/Pod-Weaver-Section-Support>
 
-    *   RT: CPAN's Bug Tracker
-
-        <http://rt.cpan.org/NoAuth/Bugs.html?Dist=Pod-Weaver-Section-Support
-        >
-
     *   CPANTS Kwalitee
 
         <http://cpants.perl.org/dist/overview/Pod-Weaver-Section-Support>
@@ -58,29 +160,55 @@ SUPPORT
 
         <http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
 
-    *   Source Code Repository
+  Internet Relay Chat
+    You can get live help by using IRC ( Internet Relay Chat ). If you don't
+    know what IRC is, please read this excellent guide:
+    <http://en.wikipedia.org/wiki/Internet_Relay_Chat>. Please be courteous
+    and patient when talking to us, as we might be busy or sleeping! You can
+    join those networks/channels and get help:
 
-        The code is open to the world, and available for you to hack on.
-        Please feel free to browse it and play with it, or whatever. If you
-        want to contribute patches, please send me a diff or prod me to pull
-        from your repository :)
+    *   irc.perl.org
 
-        <http://github.com/apocalypse/perl-pod-weaver-section-support>
+        You can connect to the server at 'irc.perl.org' and join this
+        channel: #perl-help then talk to this person for help: Apocalypse.
 
-  Bugs
-    Please report any bugs or feature requests to
+    *   irc.freenode.net
+
+        You can connect to the server at 'irc.freenode.net' and join this
+        channel: #perl then talk to this person for help: Apocal.
+
+    *   irc.efnet.org
+
+        You can connect to the server at 'irc.efnet.org' and join this
+        channel: #perl then talk to this person for help: Ap0cal.
+
+  Bugs / Feature Requests
+    Please report any bugs or feature requests by email to
     "bug-pod-weaver-section-support at rt.cpan.org", or through the web
     interface at
     <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Section-Suppo
     rt>. I will be notified, and then you'll automatically be notified of
     progress on your bug as I make changes.
 
+  Source Code
+    The code is open to the world, and available for you to hack on. Please
+    feel free to browse it and play with it, or whatever. If you want to
+    contribute patches, please send me a diff or prod me to pull from your
+    repository :)
+
+    <http://github.com/apocalypse/perl-pod-weaver-section-support>
+
+      git clone git://github.com/apocalypse/perl-pod-weaver-section-support.git
+
 AUTHOR
-      Apocalypse <APOCAL@cpan.org>
+    Apocalypse <APOCAL@cpan.org>
 
 COPYRIGHT AND LICENSE
     This software is copyright (c) 2010 by Apocalypse.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this distribution.
 
