@@ -2,6 +2,70 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit 4bfbd61b4d9443aa7a50b0cd73b3c27f538a5011
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Feb 2 15:54:52 2011 -0700
+  
+    rename the email attr for clarity
+
+  commit 83645accb5d5771d4aceb10bfce1fe9e9caaf75e
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Feb 2 14:15:10 2011 -0700
+  
+    more stopwords
+
+  commit d1bbbbb155f7e74c7043c8b4b13de301a4b74950
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Feb 2 14:04:53 2011 -0700
+  
+    add email section and more tweaks of POD
+
+  commit f1d296cbcde8b63ff3cba9795df4fc1bdeee8706
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Dec 16 12:55:54 2010 -0700
+  
+    tweak stopword list
+
+  commit 21411f55723d94f958be71b595e0dc96170f697e
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Mon Dec 13 19:19:53 2010 -0700
+  
+    fix typo in POD
+
+  commit 9c97ae09042493234fc501455e0e7ff34f8db686
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Dec 8 00:36:14 2010 -0700
+  
+    new release tarball 
+
+=======================================
+2010-12-08 00:35:51 -0700 release-1.001
+=======================================
+
+  commit b166f972db214105bae0b64c5202f43adb885c14
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Dec 8 00:35:51 2010 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v1.001
+
+    Released: 2010-12-08 07:35:41 UTC
+
+    Add attributes to control the repository section ( thanks RWSTAUNER!
+    )
+
+    Reorganized the layout of the generated POD
+
+    Add attribute to control the website links ( thanks GETTY! )
+
+    Add attributes for new irc section ( thanks GETTY! )
+
+    Add attribute to control the bugs section ( thanks GETTY! )
+
+    Add attribute to enable/disable perldoc section ( thanks GETTY! )
+
+    Add attribute to enable/disable SUPPORT section for all modules (
+    thanks GETTY! )
+
   commit 75389d8371967b980846cf5324ee03d35aba900a
   Author: Apocalypse <perl@0ne.us>
   Date:   Wed Dec 8 00:35:34 2010 -0700

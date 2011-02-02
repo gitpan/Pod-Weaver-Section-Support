@@ -1,14 +1,13 @@
 NAME
-    Pod::Weaver::Section::Support - add a SUPPORT pod section
+    Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 VERSION
-      This document describes v1.001 of Pod::Weaver::Section::Support - released December 08, 2010 as part of Pod-Weaver-Section-Support.
+      This document describes v1.002 of Pod::Weaver::Section::Support - released February 02, 2011 as part of Pod-Weaver-Section-Support.
 
 DESCRIPTION
-    This section plugin will produce a hunk of pod that lists the common
-    support websites and an explanation of how to report bugs. It will do
-    this only if it is being built with Dist::Zilla because it needs the
-    data from the dzil object.
+    This section plugin will produce a hunk of pod that lists the various
+    ways to get support for this module. It will do this only if it is being
+    built with Dist::Zilla because it needs the data from the dzil object.
 
     If you have Dist::Zilla::Plugin::Repository enabled in your dist.ini, be
     sure to check the repository_link attribute!
@@ -26,6 +25,12 @@ ATTRIBUTES
 
     The default is false.
 
+  perldoc
+    Specify if you want the paragraph explaining about perldoc to be
+    displayed or not.
+
+    The default is true.
+
   bugs
     Specify the bugtracker you want to use. You can use the CPAN RT tracker
     or your own, specified in the metadata.
@@ -36,15 +41,18 @@ ATTRIBUTES
     block of text explaining how to use the RT system.
 
     If you pick the "metadata" option, this module will check the
-    Dist::Zilla metadata for the bugtracker to display.
+    Dist::Zilla metadata for the bugtracker to display. Be sure to verify
+    that your metadata contains both 'web' and 'mailto' keys if you want to
+    use them in the content!
 
     The default is "rt".
 
-  perldoc
-    Specify if you want the paragraph explaining about perldoc to be
-    displayed or not.
+  bugs_content
+    Specify the content for the bugs section.
 
-    The default is true.
+    Please put the "{EMAIL}" and "{WEB}" placeholders somewhere!
+
+    The default is a sufficient explanation (see "SUPPORT").
 
   websites
     Specify what website links you want to see. This is an array, and you
@@ -75,6 +83,11 @@ ATTRIBUTES
 
     P.S. If you know other websites that I should include here, please let
     me know!
+
+  websites_content
+    Specify the content to be displayed before the website list.
+
+    The default is a sufficient explanation (see "SUPPORT").
 
   irc
     Specify an IRC server/channel/nick for online support. You can specify
@@ -113,11 +126,29 @@ ATTRIBUTES
     said that you wanted it you probably expect it to be there.
 
   repository_content
-    Text displayed before the link to the source code repository.
+    Specify the content to be displayed before the link to the source code
+    repository.
 
     The default is a sufficient explanation (see "SUPPORT").
 
+  email
+    Specify an email address here so users can contact you directly for
+    help.
+
+    If you supply a string without '@' in it, we assume it is a PAUSE id and
+    mangle it into 'USER at cpan.org'.
+
+    The default is none.
+
+  email_content
+    Specify the content for the email section.
+
+    Please put the "{EMAIL}" placeholder somewhere!
+
+    The default is a sufficient explanation ( see "SUPPORT").
+
 SUPPORT
+  Perldoc
     You can find documentation for this module with the perldoc command.
 
       perldoc Pod::Weaver::Section::Support
@@ -160,6 +191,10 @@ SUPPORT
 
         <http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
 
+  Email
+    You can email the author of this module at "APOCAL at cpan.org" asking
+    for help with any problems you have.
+
   Internet Relay Chat
     You can get live help by using IRC ( Internet Relay Chat ). If you don't
     know what IRC is, please read this excellent guide:
@@ -187,8 +222,8 @@ SUPPORT
     "bug-pod-weaver-section-support at rt.cpan.org", or through the web
     interface at
     <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Section-Suppo
-    rt>. I will be notified, and then you'll automatically be notified of
-    progress on your bug as I make changes.
+    rt>. You will be automatically notified of any progress on the request
+    by the system.
 
   Source Code
     The code is open to the world, and available for you to hack on. Please
@@ -204,7 +239,7 @@ AUTHOR
     Apocalypse <APOCAL@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2010 by Apocalypse.
+    This software is copyright (c) 2011 by Apocalypse.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.

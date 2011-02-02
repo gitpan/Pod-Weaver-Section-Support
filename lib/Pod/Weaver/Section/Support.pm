@@ -1,7 +1,7 @@
 #
 # This file is part of Pod-Weaver-Section-Support
 #
-# This software is copyright (c) 2010 by Apocalypse.
+# This software is copyright (c) 2011 by Apocalypse.
 #
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
@@ -9,13 +9,13 @@
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
 BEGIN {
-  $Pod::Weaver::Section::Support::VERSION = '1.001';
+  $Pod::Weaver::Section::Support::VERSION = '1.002';
 }
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
 }
 
-# ABSTRACT: add a SUPPORT pod section
+# ABSTRACT: Add a SUPPORT section to your POD
 
 use Moose 1.03;
 use Moose::Autobox 0.10;
@@ -32,6 +32,13 @@ has all_modules => (
 );
 
 
+has perldoc => (
+	is => 'ro',
+	isa => 'Bool',
+	default => 1,
+);
+
+
 {
 	use Moose::Util::TypeConstraints 1.01;
 
@@ -45,10 +52,15 @@ has all_modules => (
 }
 
 
-has perldoc => (
+has bugs_content => (
 	is => 'ro',
-	isa => 'Bool',
-	default => 1,
+	isa => 'Str',
+	default => <<'EOPOD',
+Please report any bugs or feature requests by email to {EMAIL}, or through
+the web interface at {WEB}. You will be automatically notified of any
+progress on the request by the system.
+EOPOD
+
 );
 
 
@@ -57,6 +69,17 @@ has websites => (
 	is => 'ro',
 	isa => 'ArrayRef[Str]',
 	default => sub { [ 'all' ] },
+);
+
+
+has websites_content => (
+	is => 'ro',
+	isa => 'Str',
+	default => <<'EOPOD',
+The following websites have more information about this module, and may be of help to you. As always,
+in addition to those websites please use your favorite search engine to discover more resources.
+EOPOD
+
 );
 
 
@@ -104,6 +127,23 @@ EOPOD
 
 );
 
+
+has email => (
+	is => 'ro',
+	isa => 'Maybe[Str]',
+	default => undef,
+);
+
+
+has email_content => (
+	is => 'ro',
+	isa => 'Str',
+	default => <<'EOPOD',
+You can email the author of this module at {EMAIL} asking for help with any problems you have.
+EOPOD
+
+);
+
 sub weave_section {
 	## no critic ( ProhibitAccessOfPrivateData )
 	my ($self, $document, $input) = @_;
@@ -124,7 +164,7 @@ sub weave_section {
 			content => '',
 			children => [
 				Pod::Elemental::Element::Pod5::Ordinary->new( {
-					content => join( " ", qw( CPAN AnnoCPAN RT CPANTS Kwalitee diff IRC ) ),
+					content => join( " ", qw( cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders ) ),
 				} ),
 			],
 		} ),
@@ -134,6 +174,7 @@ sub weave_section {
 			children => [
 				$self->_add_perldoc( $zilla ),
 				$self->_add_websites( $zilla ),
+				$self->_add_email( $zilla ),
 				$self->_add_irc( $zilla ),
 				$self->_add_bugs( $zilla, $input->{'distmeta'} ),
 				$self->_add_repo( $zilla ),
@@ -142,24 +183,47 @@ sub weave_section {
 	);
 }
 
+sub _add_email {
+	my( $self, $zilla ) = @_;
+
+	# Do we have anything to do?
+	return () if ! defined $self->email;
+
+	# pause id for email?
+	my $address = $self->email;
+	if ( $address !~ /\@/ ) {
+		$address = 'C<' . uc( $address ) . ' at cpan.org>';
+	}
+
+	my $content = $self->email_content;
+	$content =~ s/\{EMAIL\}/$address/;
+
+	return Pod::Elemental::Element::Nested->new( {
+		command => 'head2',
+		content => 'Email',
+		children => [
+			Pod::Elemental::Element::Pod5::Ordinary->new( {
+				content => $content,
+			} ),
+		],
+	} );
+}
+
 sub _add_bugs {
 	my( $self, $zilla, $distmeta ) = @_;
 
 	# Do we have anything to do?
 	return () if $self->bugs eq 'none';
 
-	my $dist = $zilla->name;
-	my $lc_dist = lc( $dist );
-
 	# Which kind of text should we display?
-	my $text;
+	my $text = $self->bugs_content;
 	if ( $self->bugs eq 'rt' ) {
-		$text = <<"EOPOD";
-Please report any bugs or feature requests by email to C<bug-$lc_dist at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=$dist>.  I will be
-notified, and then you'll automatically be notified of progress on your bug as I make changes.
-EOPOD
+		my $dist = $zilla->name;
+		my $mailto = "C<bug-" . lc( $dist ) . " at rt.cpan.org>";
+		my $web = "L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=$dist>";
 
+		$text =~ s/\{WEB\}/$web/;
+		$text =~ s/\{EMAIL\}/$mailto/;
 	} else {
 		# code copied from Pod::Weaver::Section::Bugs, thanks RJBS!
 		die 'No bugtracker in metadata!' unless exists $distmeta->{resources}{bugtracker};
@@ -167,19 +231,8 @@ EOPOD
 		my( $web, $mailto ) = @{$bugtracker}{qw/web mailto/};
 		die 'No bugtracker in metadata!' unless defined $web || defined $mailto;
 
-		$text = "Please report any bugs or feature requests ";
-
-		if ( defined $web ) {
-			$text .= "on the bugtracker website L<$web>";
-			$text .= defined $mailto ? " or " : ".";
-		}
-
-		if ( defined $mailto ) {
-			$text .= "by email to '$mailto'.";
-		}
-
-		$text .= " I will be notified, and then you'll automatically ";
-		$text .= "be notified of progress on your bug as I make changes.";
+		$text =~ s/\{WEB\}/L\<$web\>/ if defined $web;
+		$text =~ s/\{EMAIL\}/C\<$mailto\>/ if defined $mailto;
 	}
 
 	return Pod::Elemental::Element::Nested->new( {
@@ -203,18 +256,22 @@ sub _add_perldoc {
 	$perl_name =~ s/-/::/g;
 
 	# TODO add language detection as per RT#63726
-	# TODO when I do the lang thing, make this a head2 section...
-	return (
-		Pod::Elemental::Element::Pod5::Ordinary->new( {
+
+	return Pod::Elemental::Element::Nested->new( {
+		command => 'head2',
+		content => 'Perldoc',
+		children => [
+			Pod::Elemental::Element::Pod5::Ordinary->new( {
 			content => <<'EOPOD',
 You can find documentation for this module with the perldoc command.
 EOPOD
 
-		} ),
-		Pod::Elemental::Element::Pod5::Verbatim->new( {
-			content => "  perldoc $perl_name",
-		} ),
-	);
+			} ),
+			Pod::Elemental::Element::Pod5::Verbatim->new( {
+				content => "  perldoc $perl_name",
+			} ),
+		],
+	} );
 }
 
 sub _add_irc {
@@ -415,10 +472,7 @@ sub _add_websites {
 		content => 'Websites',
 		children => [
 			Pod::Elemental::Element::Pod5::Ordinary->new( {
-				content => <<EOPOD,
-The following websites have more information about this module, and may be of help to you. As always,
-in addition to those websites please use your favorite search engine to discover more resources.
-EOPOD
+				content => $self->websites_content,
 			} ),
 			Pod::Elemental::Element::Nested->new( {
 				command => 'over',
@@ -510,22 +564,22 @@ sub _make_item {
 __END__
 =pod
 
-=for Pod::Coverage weave_section mvp_bundle_config
+=for Pod::Coverage weave_section mvp_multivalue_args
 
 =for stopwords dist dzil repo
 
 =head1 NAME
 
-Pod::Weaver::Section::Support - add a SUPPORT pod section
+Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 =head1 VERSION
 
-  This document describes v1.001 of Pod::Weaver::Section::Support - released December 08, 2010 as part of Pod-Weaver-Section-Support.
+  This document describes v1.002 of Pod::Weaver::Section::Support - released February 02, 2011 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
-This section plugin will produce a hunk of pod that lists the common support websites
-and an explanation of how to report bugs. It will do this only if it is being built with L<Dist::Zilla>
+This section plugin will produce a hunk of pod that lists the various ways to get support
+for this module. It will do this only if it is being built with L<Dist::Zilla>
 because it needs the data from the dzil object.
 
 If you have L<Dist::Zilla::Plugin::Repository> enabled in your F<dist.ini>, be sure to check the
@@ -544,6 +598,12 @@ Enable this if you want to add the SUPPORT section to all the modules in a dist,
 
 The default is false.
 
+=head2 perldoc
+
+Specify if you want the paragraph explaining about perldoc to be displayed or not.
+
+The default is true.
+
 =head2 bugs
 
 Specify the bugtracker you want to use. You can use the CPAN RT tracker or your own, specified in the metadata.
@@ -552,15 +612,18 @@ Valid options are: "rt", "metadata", or "none"
 
 If you pick the "rt" option, this module will generate a predefined block of text explaining how to use the RT system.
 
-If you pick the "metadata" option, this module will check the L<Dist::Zilla> metadata for the bugtracker to display.
+If you pick the "metadata" option, this module will check the L<Dist::Zilla> metadata for the bugtracker to display. Be sure
+to verify that your metadata contains both 'web' and 'mailto' keys if you want to use them in the content!
 
 The default is "rt".
 
-=head2 perldoc
+=head2 bugs_content
 
-Specify if you want the paragraph explaining about perldoc to be displayed or not.
+Specify the content for the bugs section.
 
-The default is true.
+Please put the "{EMAIL}" and "{WEB}" placeholders somewhere!
+
+The default is a sufficient explanation (see L</SUPPORT>).
 
 =head2 websites
 
@@ -589,6 +652,12 @@ The default is "all".
 	websites = testers , testmatrix
 
 P.S. If you know other websites that I should include here, please let me know!
+
+=head2 websites_content
+
+Specify the content to be displayed before the website list.
+
+The default is a sufficient explanation (see L</SUPPORT>).
 
 =head2 irc
 
@@ -628,13 +697,31 @@ because if you said that you wanted it you probably expect it to be there.
 
 =head2 repository_content
 
-Text displayed before the link to the source code repository.
+Specify the content to be displayed before the link to the source code repository.
 
 The default is a sufficient explanation (see L</SUPPORT>).
 
-=for :stopwords CPAN AnnoCPAN RT CPANTS Kwalitee diff IRC
+=head2 email
+
+Specify an email address here so users can contact you directly for help.
+
+If you supply a string without '@' in it, we assume it is a PAUSE id and mangle it into 'USER at cpan.org'.
+
+The default is none.
+
+=head2 email_content
+
+Specify the content for the email section.
+
+Please put the "{EMAIL}" placeholder somewhere!
+
+The default is a sufficient explanation ( see L</SUPPORT>).
+
+=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
 
 =head1 SUPPORT
+
+=head2 Perldoc
 
 You can find documentation for this module with the perldoc command.
 
@@ -697,6 +784,10 @@ L<http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
 
 =back
 
+=head2 Email
+
+You can email the author of this module at C<APOCAL at cpan.org> asking for help with any problems you have.
+
 =head2 Internet Relay Chat
 
 You can get live help by using IRC ( Internet Relay Chat ). If you don't know what IRC is,
@@ -729,8 +820,8 @@ You can connect to the server at 'irc.efnet.org' and join this channel: #perl th
 =head2 Bugs / Feature Requests
 
 Please report any bugs or feature requests by email to C<bug-pod-weaver-section-support at rt.cpan.org>, or through
-the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Section-Support>.  I will be
-notified, and then you'll automatically be notified of progress on your bug as I make changes.
+the web interface at L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Pod-Weaver-Section-Support>. You will be automatically notified of any
+progress on the request by the system.
 
 =head2 Source Code
 
@@ -748,7 +839,7 @@ Apocalypse <APOCAL@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2010 by Apocalypse.
+This software is copyright (c) 2011 by Apocalypse.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

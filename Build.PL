@@ -15,12 +15,12 @@ my %module_build_args = (
   'configure_requires' => {
     'Module::Build' => '0.3601'
   },
-  'dist_abstract' => 'add a SUPPORT pod section',
+  'dist_abstract' => 'Add a SUPPORT section to your POD',
   'dist_author' => [
     'Apocalypse <APOCAL@cpan.org>'
   ],
   'dist_name' => 'Pod-Weaver-Section-Support',
-  'dist_version' => '1.001',
+  'dist_version' => '1.002',
   'license' => 'perl',
   'module_name' => 'Pod::Weaver::Section::Support',
   'recommends' => {},

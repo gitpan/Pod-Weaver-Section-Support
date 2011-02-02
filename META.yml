@@ -1,5 +1,5 @@
 ---
-abstract: 'add a SUPPORT pod section'
+abstract: 'Add a SUPPORT section to your POD'
 author:
   - 'Apocalypse <APOCAL@cpan.org>'
 build_requires:
@@ -23,7 +23,7 @@ no_index:
 provides:
   Pod::Weaver::Section::Support:
     file: lib/Pod/Weaver/Section/Support.pm
-    version: 1.001
+    version: 1.002
 requires:
   Moose: 1.03
   Moose::Autobox: 0.10
@@ -35,7 +35,7 @@ resources:
   homepage: http://search.cpan.org/dist/Pod-Weaver-Section-Support/
   license: http://dev.perl.org/licenses/
   repository: git://github.com/apocalypse/perl-pod-weaver-section-support.git
-version: 1.001
+version: 1.002
 x_BuiltWith:
   modules:
     File::Find: 1.12
@@ -61,7 +61,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::NextVersion
       name: '@Apocalyptic/Git::NextVersion'
-      version: 1.102810
+      version: 1.103470
     -
       class: Dist::Zilla::Plugin::GatherDir
       name: '@Apocalyptic/GatherDir'
@@ -179,7 +179,7 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::DualBuilders
       name: '@Apocalyptic/DualBuilders'
-      version: 0.03
+      version: 1.001
     -
       class: Dist::Zilla::Plugin::MetaYAML
       name: '@Apocalyptic/MetaYAML'
@@ -211,14 +211,14 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Check
       name: '@Apocalyptic/Git::Check'
-      version: 1.102810
+      version: 1.103470
     -
       class: Dist::Zilla::Plugin::ConfirmRelease
       name: '@Apocalyptic/ConfirmRelease'
       version: 4.102345
     -
-      class: Dist::Zilla::Plugin::FakeRelease
-      name: '@Apocalyptic/FakeRelease'
+      class: Dist::Zilla::Plugin::UploadToCPAN
+      name: '@Apocalyptic/UploadToCPAN'
       version: 4.102345
     -
       class: Dist::Zilla::Plugin::ArchiveRelease
@@ -227,15 +227,15 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::Git::Commit
       name: '@Apocalyptic/Git::Commit'
-      version: 1.102810
+      version: 1.103470
     -
       class: Dist::Zilla::Plugin::Git::Tag
       name: '@Apocalyptic/Git::Tag'
-      version: 1.102810
+      version: 1.103470
     -
       class: Dist::Zilla::Plugin::Git::Push
       name: '@Apocalyptic/Git::Push'
-      version: 1.102810
+      version: 1.103470
     -
       class: Dist::Zilla::Plugin::FinderCode
       name: ':InstallModules'

@@ -9,7 +9,7 @@ use ExtUtils::MakeMaker 6.31;
 
 
 my %WriteMakefileArgs = (
-  'ABSTRACT' => 'add a SUPPORT pod section',
+  'ABSTRACT' => 'Add a SUPPORT section to your POD',
   'AUTHOR' => 'Apocalypse <APOCAL@cpan.org>',
   'BUILD_REQUIRES' => {
     'File::Find' => '0',
@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     'Moose::Util::TypeConstraints' => '1.01',
     'Pod::Weaver::Role::Section' => '3.100710'
   },
-  'VERSION' => '1.001',
+  'VERSION' => '1.002',
   'test' => {
     'TESTS' => 't/*.t'
   }
