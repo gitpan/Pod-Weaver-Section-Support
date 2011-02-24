@@ -2,6 +2,37 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit 8108f7ea55b63cb043224837e875e2354ee25223
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Feb 24 09:34:17 2011 -0700
+  
+    change *_content to arrayref, add extra sanity checks for
+    bugs_content, and properly mangle email addr 
+
+=======================================
+2011-02-02 15:55:22 -0700 release-1.002
+=======================================
+
+  commit 6cf5e140a252eb221c6c61be466a3e2f9d7ec5bc
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Wed Feb 2 15:55:22 2011 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v1.002
+
+    Released: 2011-02-02 22:55:07 UTC
+
+    Fix a few typos in the POD
+
+    Add email section to contact the author
+
+    Make the perldoc section a proper header
+
+    Tweaked the wording of the bugs section ( thanks DAGOLDEN! )
+
+    Add attribute to specify the bugs content ( thanks DAGOLDEN! )
+
+    Add attribute to specify the website content
+
   commit 4bfbd61b4d9443aa7a50b0cd73b3c27f538a5011
   Author: Apocalypse <perl@0ne.us>
   Date:   Wed Feb 2 15:54:52 2011 -0700
