@@ -1,5 +1,11 @@
 Revision history for Pod::Weaver::Section::Support
 
+1.004
+	Released: 2011-04-21 21:48:17 UTC
+
+	Tweaked the output of the websites so it also includes a descriptive text of the link
+	Add the deps.cpantesters.org website ( deps ) to the website list
+
 1.003
 	Released: 2011-02-24 17:03:11 UTC
 

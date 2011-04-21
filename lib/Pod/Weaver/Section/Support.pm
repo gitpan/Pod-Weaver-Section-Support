@@ -9,7 +9,7 @@
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
 BEGIN {
-  $Pod::Weaver::Section::Support::VERSION = '1.003';
+  $Pod::Weaver::Section::Support::VERSION = '1.004';
 }
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
@@ -272,8 +272,12 @@ sub _add_perldoc {
 	# Do we have anything to do?
 	return () if ! $self->perldoc;
 
-	my $perl_name = $zilla->name;
-	$perl_name =~ s/-/::/g;
+	# Don't use $zilla->name as some dists' name is different from the actual module...
+	# TODO what if user specified $self->all_modules( 1 )? should this use the current filename?
+	my $main_module = $zilla->main_module->name;
+	$main_module =~ s|^lib/||i;
+	$main_module =~ s/\.pm$//;
+	$main_module =~ s|/|::|g;
 
 	# TODO add language detection as per RT#63726
 
@@ -288,7 +292,7 @@ EOPOD
 
 			} ),
 			Pod::Elemental::Element::Pod5::Verbatim->new( {
-				content => "  perldoc $perl_name",
+				content => "  perldoc $main_module",
 			} ),
 		],
 	} );
@@ -449,7 +453,7 @@ sub _add_websites {
 
 	# Do we have anything to do?
 	return () if ! scalar @{ $self->websites };
-	return () if grep { $_ eq 'none' } @{ $self->websites };
+	return () if grep { $_ eq 'none' } @{ $self->websites }; ## no critic ( BuiltinFunctions::ProhibitBooleanGrep )
 
 	# explode CSV lists
 	my @newlist;
@@ -469,14 +473,14 @@ sub _add_websites {
 
 	# sanity check
 	foreach my $type ( @{ $self->websites } ) {
-		if ( $type !~ /^(?:search|rt|anno|ratings|forum|kwalitee|testers|testmatrix|all)$/i ) {
+		if ( $type !~ /^(?:search|rt|anno|ratings|forum|kwalitee|testers|testmatrix|deps|all)$/i ) {
 			$zilla->log_fatal( "Unknown website type: $type" );
 		}
 	}
 
 	# Set the default ordering for "all"
-	if ( grep { $_ eq 'all' } @{ $self->websites } ) {
-		@{ $self->websites } = qw( search rt anno ratings forum kwalitee testers testmatrix );
+	if ( grep { $_ eq 'all' } @{ $self->websites } ) { ## no critic ( BuiltinFunctions::ProhibitBooleanGrep )
+		@{ $self->websites } = qw( search rt anno ratings forum kwalitee testers testmatrix deps );
 	}
 
 	# Make the website links!
@@ -485,7 +489,11 @@ sub _add_websites {
 	foreach my $type ( @{ $self->websites } ) {
 		next if $seen_type{$type}++;
 		$type = '_add_websites_' . $type;
-		push( @links, $self->$type( $zilla->name ) );
+		my $main_module = $zilla->main_module->name;
+		$main_module =~ s|^lib/||i;
+		$main_module =~ s/\.pm$//;
+		$main_module =~ s|/|::|g;
+		push( @links, $self->$type( $zilla->name, $main_module ) );
 	}
 
 	return Pod::Elemental::Element::Nested->new( {
@@ -511,53 +519,96 @@ sub _add_websites {
 }
 
 sub _add_websites_search {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'Search CPAN', "L<http://search.cpan.org/dist/$dist>" );
+	return _make_item( 'Search CPAN', <<"EOF" );
+The default CPAN search engine, useful to view POD in HTML format.
+
+L<http://search.cpan.org/dist/$dist>
+EOF
 }
 
 sub _add_websites_rt {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'RT: CPAN\'s Bug Tracker', "L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist>" );
+	return _make_item( "RT: CPAN's Bug Tracker", <<"EOF" );
+The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist>
+EOF
 }
 
 sub _add_websites_anno {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'AnnoCPAN: Annotated CPAN documentation', "L<http://annocpan.org/dist/$dist>" );
+	return _make_item( 'AnnoCPAN', <<"EOF" );
+The AnnoCPAN is a website that allows community annonations of Perl module documentation.
+
+L<http://annocpan.org/dist/$dist>
+EOF
 }
 
 sub _add_websites_ratings {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'CPAN Ratings', "L<http://cpanratings.perl.org/d/$dist>" );
+	return _make_item( 'CPAN Ratings', <<"EOF" );
+The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
+
+L<http://cpanratings.perl.org/d/$dist>
+EOF
 }
 
 sub _add_websites_forum {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'CPAN Forum', "L<http://cpanforum.com/dist/$dist>" );
+	return _make_item( 'CPAN Forum', <<"EOF" );
+The CPAN Forum is a web forum for discussing Perl modules.
+
+L<http://cpanforum.com/dist/$dist>
+EOF
 }
 
 sub _add_websites_kwalitee {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'CPANTS Kwalitee', "L<http://cpants.perl.org/dist/overview/$dist>" );
+	# TODO add link for http://perl-qa.hexten.net/wiki/index.php/Kwalitee ?
+	return _make_item( 'CPANTS', <<"EOF" );
+The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
+
+L<http://cpants.perl.org/dist/overview/$dist>
+EOF
 }
 
 sub _add_websites_testers {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
 	my $first_char = substr( $dist, 0, 1 );
 
-	return _make_item( 'CPAN Testers Results', "L<http://cpantesters.org/distro/$first_char/$dist.html>" );
+	return _make_item( 'CPAN Testers', <<"EOF" );
+The CPAN Testers is a network of smokers who run automated tests on uploaded CPAN distributions.
+
+L<http://www.cpantesters.org/distro/$first_char/$dist>
+EOF
 }
 
 sub _add_websites_testmatrix {
-	my( $self, $dist ) = @_;
+	my( $self, $dist, $module ) = @_;
 
-	return _make_item( 'CPAN Testers Matrix', "L<http://matrix.cpantesters.org/?dist=$dist>" );
+	return _make_item( 'CPAN Testers Matrix', <<"EOF" );
+The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+
+L<http://matrix.cpantesters.org/?dist=$dist>
+EOF
+}
+
+sub _add_websites_deps {
+	my( $self, $dist, $module ) = @_;
+
+	return _make_item( 'CPAN Testers Dependencies', <<"EOF" );
+The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
+
+L<http://deps.cpantesters.org/?module=$module>
+EOF
 }
 
 sub _make_item {
@@ -585,9 +636,12 @@ sub _make_item {
 __END__
 =pod
 
-=for Pod::Coverage weave_section mvp_multivalue_args
+=for :stopwords Apocalypse cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee
+diff irc mailto metadata placeholders dist dzil repo
 
-=for stopwords dist dzil repo
+=encoding utf-8
+
+=for Pod::Coverage weave_section mvp_multivalue_args
 
 =head1 NAME
 
@@ -595,7 +649,7 @@ Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 =head1 VERSION
 
-  This document describes v1.003 of Pod::Weaver::Section::Support - released February 24, 2011 as part of Pod-Weaver-Section-Support.
+  This document describes v1.004 of Pod::Weaver::Section::Support - released April 21, 2011 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
@@ -652,7 +706,7 @@ Specify what website links you want to see. This is an array, and you can pick a
 specify it as a comma-delimited string. The ordering of the options are important, as they are reflected in
 the final POD.
 
-Valid options are: "none", "search", "rt", "anno", "ratings", "forum", "kwalitee", "testers", "testmatrix" and "all".
+Valid options are: "none", "search", "rt", "anno", "ratings", "forum", "kwalitee", "testers", "testmatrix", "deps" and "all".
 
 The default is "all".
 
@@ -663,8 +717,9 @@ The default is "all".
 	ratings		- http://cpanratings.perl.org/d/$dist
 	forum		- http://cpanforum.com/dist/$dist
 	kwalitee	- http://cpants.perl.org/dist/overview/$dist
-	testers		- http://cpantesters.org/distro/$first_char/$dist.html
+	testers		- http://cpantesters.org/distro/$first_char/$dist
 	testmatrix	- http://matrix.cpantesters.org/?dist=$dist
+	deps		- http://deps.cpantesters.org/?module=$module
 
 	# in weaver.ini
 	[Support]
@@ -738,8 +793,6 @@ Please put the "{EMAIL}" placeholder somewhere!
 
 The default is a sufficient explanation ( see L</SUPPORT>).
 
-=for :stopwords cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders
-
 =head1 SUPPORT
 
 =head2 Perldoc
@@ -759,17 +812,23 @@ in addition to those websites please use your favorite search engine to discover
 
 Search CPAN
 
+The default CPAN search engine, useful to view POD in HTML format.
+
 L<http://search.cpan.org/dist/Pod-Weaver-Section-Support>
 
 =item *
 
 RT: CPAN's Bug Tracker
 
+The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
+
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Pod-Weaver-Section-Support>
 
 =item *
 
-AnnoCPAN: Annotated CPAN documentation
+AnnoCPAN
+
+The AnnoCPAN is a website that allows community annonations of Perl module documentation.
 
 L<http://annocpan.org/dist/Pod-Weaver-Section-Support>
 
@@ -777,31 +836,49 @@ L<http://annocpan.org/dist/Pod-Weaver-Section-Support>
 
 CPAN Ratings
 
+The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
+
 L<http://cpanratings.perl.org/d/Pod-Weaver-Section-Support>
 
 =item *
 
 CPAN Forum
 
+The CPAN Forum is a web forum for discussing Perl modules.
+
 L<http://cpanforum.com/dist/Pod-Weaver-Section-Support>
 
 =item *
 
-CPANTS Kwalitee
+CPANTS
+
+The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
 
 L<http://cpants.perl.org/dist/overview/Pod-Weaver-Section-Support>
 
 =item *
 
-CPAN Testers Results
+CPAN Testers
 
-L<http://cpantesters.org/distro/P/Pod-Weaver-Section-Support.html>
+The CPAN Testers is a network of smokers who run automated tests on uploaded CPAN distributions.
+
+L<http://www.cpantesters.org/distro/P/Pod-Weaver-Section-Support>
 
 =item *
 
 CPAN Testers Matrix
 
+The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+
 L<http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
+
+=item *
+
+CPAN Testers Dependencies
+
+The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
+
+L<http://deps.cpantesters.org/?module=Pod::Weaver::Section::Support>
 
 =back
 
@@ -866,6 +943,29 @@ This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 The full text of the license can be found in the LICENSE file included with this distribution.
+
+=head1 DISCLAIMER OF WARRANTY
+
+BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
+FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT
+WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER
+PARTIES PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND,
+EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
+SOFTWARE IS WITH YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME
+THE COST OF ALL NECESSARY SERVICING, REPAIR, OR CORRECTION.
+
+IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
+REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE LIABLE
+TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
+CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
+SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
+RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
+FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
+SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
+DAMAGES.
 
 =cut
 

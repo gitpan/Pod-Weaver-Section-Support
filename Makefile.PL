@@ -30,7 +30,7 @@ my %WriteMakefileArgs = (
     'Moose::Util::TypeConstraints' => '1.01',
     'Pod::Weaver::Role::Section' => '3.100710'
   },
-  'VERSION' => '1.003',
+  'VERSION' => '1.004',
   'test' => {
     'TESTS' => 't/*.t'
   }

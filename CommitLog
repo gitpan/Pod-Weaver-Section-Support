@@ -2,6 +2,57 @@
 9999-99-99 99:99:99 +0000 HEAD
 ==============================
 
+  commit c1e0e0cf2d63af353ad58538128ec2da18ec4821
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Apr 21 14:48:14 2011 -0700
+  
+    shut up perlcritic about BooleanGrep
+
+  commit 1bb8f816fdfe80cc3851e364c280fe3207f7a3fc
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Apr 21 14:41:41 2011 -0700
+  
+    tweak the perldoc output to always use main_module's name
+
+  commit d4f54beb622790e3b490533f8cb35eb32eb6898f
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Apr 21 14:35:27 2011 -0700
+  
+    tweak the wording of the websites
+
+  commit 634958b640623f6fd23d35f08541908aeb2ad21f
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Apr 21 14:27:49 2011 -0700
+  
+    tweaks to the extra website stuff's POD
+
+  commit 526e78e9d6bdafcfba8da31b67efb6df8ff66da7
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Apr 21 13:12:45 2011 -0700
+  
+    add descriptive text to websites and add deps website 
+
+=======================================
+2011-02-24 10:03:25 -0700 release-1.003
+=======================================
+
+  commit eada4545506f2fb556eac2b168b15265cbe5b723
+  Author: Apocalypse <perl@0ne.us>
+  Date:   Thu Feb 24 10:03:25 2011 -0700
+  
+    New CPAN release of Pod-Weaver-Section-Support - v1.003
+
+    Released: 2011-02-24 17:03:11 UTC
+
+    Made sure the bugs_content and the metadata match up, otherwise it
+    will throw an error! ( thanks XENO! )
+
+    Changed the *_content attributes to arrayrefs so you can sanely use
+    them in a weaver.ini ( thanks XENO! )
+
+    The email attribute didn't add C<> to the address if you specified
+    your own ( thanks XENO! )
+
   commit 8108f7ea55b63cb043224837e875e2354ee25223
   Author: Apocalypse <perl@0ne.us>
   Date:   Thu Feb 24 09:34:17 2011 -0700
