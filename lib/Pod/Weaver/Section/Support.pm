@@ -1,15 +1,15 @@
 #
 # This file is part of Pod-Weaver-Section-Support
 #
-# This software is copyright (c) 2011 by Apocalypse.
+# This software is copyright (c) 2012 by Apocalypse.
 #
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
 #
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
-BEGIN {
-  $Pod::Weaver::Section::Support::VERSION = '1.004';
+{
+  $Pod::Weaver::Section::Support::VERSION = '1.005';
 }
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
@@ -64,6 +64,8 @@ EOPOD
 		];
 	},
 );
+
+# TODO add kobesearch to websites?
 
 
 # TODO how do I Moosify this into a fancy type system where it coerces from CSV strings and bla bla?
@@ -174,7 +176,7 @@ sub weave_section {
 			content => '',
 			children => [
 				Pod::Elemental::Element::Pod5::Ordinary->new( {
-					content => join( " ", qw( cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders ) ),
+					content => join( " ", qw( cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata placeholders metacpan ) ),
 				} ),
 			],
 		} ),
@@ -238,20 +240,20 @@ sub _add_bugs {
 		$text =~ s/\{EMAIL\}/$mailto/;
 	} else {
 		# code copied from Pod::Weaver::Section::Bugs, thanks RJBS!
-		$zilla->log_fatal( 'No bugtracker in metadata!' ) unless exists $distmeta->{resources}{bugtracker};
+		$self->log_fatal( 'No bugtracker in metadata!' ) unless exists $distmeta->{resources}{bugtracker};
 		my $bugtracker = $distmeta->{resources}{bugtracker};
 		my( $web, $mailto ) = @{$bugtracker}{qw/web mailto/};
-		$zilla->log_fatal( 'No bugtracker in metadata!' ) unless defined $web || defined $mailto;
+		$self->log_fatal( 'No bugtracker in metadata!' ) unless defined $web || defined $mailto;
 
 		$text =~ s/\{WEB\}/L\<$web\>/ if defined $web;
 		$text =~ s/\{EMAIL\}/C\<$mailto\>/ if defined $mailto;
 
 		# sanity check the content
 		if ( $text =~ /\{WEB\}/ ) {
-			$zilla->log_fatal( "The metadata doesn't have a website for the bugtracker but you specified it in the bugs_content!" );
+			$self->log_fatal( "The metadata doesn't have a website for the bugtracker but you specified it in the bugs_content!" );
 		}
 		if ( $text =~ /\{EMAIL\}/ ) {
-			$zilla->log_fatal( "The metadata doesn't have an email for the bugtracker but you specified it in the bugs_content!" );
+			$self->log_fatal( "The metadata doesn't have an email for the bugtracker but you specified it in the bugs_content!" );
 		}
 	}
 
@@ -385,7 +387,10 @@ sub _add_repo {
 	if ( exists $zilla->distmeta->{resources}{repository} ) {
 		$repo = $zilla->distmeta->{resources}{repository};
 	} else {
-		$zilla->log_fatal( [ "Repository information missing and you wanted: %s", $self->repository_link ] );
+		$self->log_fatal( [
+			"Repository information in meta.resources.repository is missing and you wanted: %s",
+			$self->repository_link eq 'both' ? 'both (web and url)' : $self->repository_link,
+		] );
 	}
 
 	my $text = join( "\n", @{ $self->repository_content } );
@@ -398,13 +403,13 @@ sub _add_repo {
 			if ( exists $repo->{web} ) {
 				$text .= 'L<' . $repo->{web} . ">";
 			} else {
-				$zilla->log_fatal("Expected to find 'web' repository link but it is missing in the metadata!");
+				$self->log_fatal("Expected to find 'web' repository link but it is missing in the metadata!");
 			}
 		}
 
 		if ( $self->repository_link eq 'url' or $self->repository_link eq 'both' ) {
 			if ( ! exists $repo->{url} ) {
-				$zilla->log_fatal("Expected to find 'url' repository link but it is missing in the metadata!");
+				$self->log_fatal("Expected to find 'url' repository link but it is missing in the metadata!");
 			}
 
 			if ( $self->repository_link eq 'both' ) {
@@ -433,7 +438,7 @@ sub _add_repo {
 			}
 		}
 	} else {
-		$zilla->log_warning("You need to update Dist::Zilla::Plugin::Repository to at least v0.15 for the correct metadata!");
+		$self->log_warning("You need to update Dist::Zilla::Plugin::Repository to at least v0.15 for the correct metadata!");
 		$text .= "L<$repo>";
 	}
 
@@ -473,14 +478,14 @@ sub _add_websites {
 
 	# sanity check
 	foreach my $type ( @{ $self->websites } ) {
-		if ( $type !~ /^(?:search|rt|anno|ratings|forum|kwalitee|testers|testmatrix|deps|all)$/i ) {
-			$zilla->log_fatal( "Unknown website type: $type" );
+		if ( $type !~ /^(?:metacpan|search|rt|anno|ratings|forum|kwalitee|testers|testmatrix|deps|all)$/i ) {
+			$self->log_fatal( "Unknown website type: $type" );
 		}
 	}
 
 	# Set the default ordering for "all"
 	if ( grep { $_ eq 'all' } @{ $self->websites } ) { ## no critic ( BuiltinFunctions::ProhibitBooleanGrep )
-		@{ $self->websites } = qw( search rt anno ratings forum kwalitee testers testmatrix deps );
+		@{ $self->websites } = qw( metacpan search rt anno ratings forum kwalitee testers testmatrix deps );
 	}
 
 	# Make the website links!
@@ -518,6 +523,16 @@ sub _add_websites {
 	} );
 }
 
+sub _add_websites_metacpan {
+	my( $self, $dist, $module ) = @_;
+
+	return _make_item( 'MetaCPAN', <<"EOF" );
+A modern, open-source CPAN search engine, useful to view POD in HTML format.
+
+L<http://metacpan.org/release/$dist>
+EOF
+}
+
 sub _add_websites_search {
 	my( $self, $dist, $module ) = @_;
 
@@ -542,7 +557,7 @@ sub _add_websites_anno {
 	my( $self, $dist, $module ) = @_;
 
 	return _make_item( 'AnnoCPAN', <<"EOF" );
-The AnnoCPAN is a website that allows community annonations of Perl module documentation.
+The AnnoCPAN is a website that allows community annotations of Perl module documentation.
 
 L<http://annocpan.org/dist/$dist>
 EOF
@@ -595,7 +610,7 @@ sub _add_websites_testmatrix {
 	my( $self, $dist, $module ) = @_;
 
 	return _make_item( 'CPAN Testers Matrix', <<"EOF" );
-The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
 
 L<http://matrix.cpantesters.org/?dist=$dist>
 EOF
@@ -649,7 +664,7 @@ Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 =head1 VERSION
 
-  This document describes v1.004 of Pod::Weaver::Section::Support - released April 21, 2011 as part of Pod-Weaver-Section-Support.
+  This document describes v1.005 of Pod::Weaver::Section::Support - released January 02, 2012 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
@@ -706,11 +721,12 @@ Specify what website links you want to see. This is an array, and you can pick a
 specify it as a comma-delimited string. The ordering of the options are important, as they are reflected in
 the final POD.
 
-Valid options are: "none", "search", "rt", "anno", "ratings", "forum", "kwalitee", "testers", "testmatrix", "deps" and "all".
+Valid options are: "none", "metacpan", "search", "rt", "anno", "ratings", "forum", "kwalitee", "testers", "testmatrix", "deps" and "all".
 
 The default is "all".
 
 	# Where the links go to:
+	metacpan	- http://metacpan.org/release/$dist
 	search		- http://search.cpan.org/dist/$dist
 	rt		- http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist
 	anno		- http://annocpan.org/dist/$dist
@@ -937,35 +953,34 @@ Apocalypse <APOCAL@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2011 by Apocalypse.
+This software is copyright (c) 2012 by Apocalypse.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
-The full text of the license can be found in the LICENSE file included with this distribution.
+The full text of the license can be found in the
+'LICENSE' file included with this distribution.
 
 =head1 DISCLAIMER OF WARRANTY
 
-BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT
-WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER
-PARTIES PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND,
-EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE
-SOFTWARE IS WITH YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME
-THE COST OF ALL NECESSARY SERVICING, REPAIR, OR CORRECTION.
+THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+APPLICABLE LAW.  EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.  THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE PROGRAM
+IS WITH YOU.  SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF
+ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
 IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE LIABLE
-TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
-CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
-SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
-RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
-FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
-SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
-DAMAGES.
+WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR CONVEYS
+THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY
+GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE
+USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED TO LOSS OF
+DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD
+PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER PROGRAMS),
+EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
+SUCH DAMAGES.
 
 =cut
 

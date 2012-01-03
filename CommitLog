@@ -1,45 +1,165 @@
-==============================
-9999-99-99 99:99:99 +0000 HEAD
-==============================
+==================================================
+Changes from 2011-01-03 00:00:00 +0000 to present.
+==================================================
 
-  commit c1e0e0cf2d63af353ad58538128ec2da18ec4821
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Apr 21 14:48:14 2011 -0700
-  
-    shut up perlcritic about BooleanGrep
+------------------------------------------
+version 1.005 at 2012-01-03 00:48:37 +0000
+------------------------------------------
 
-  commit 1bb8f816fdfe80cc3851e364c280fe3207f7a3fc
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Apr 21 14:41:41 2011 -0700
-  
-    tweak the perldoc output to always use main_module's name
+  Change: 509e76899b354bf294b6f5d65caf39d7df7a585b
+  Author: Apocalypse <APOCAL@cpan.org>
+  Date : 2012-01-02 18:47:14 +0000
 
-  commit d4f54beb622790e3b490533f8cb35eb32eb6898f
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Apr 21 14:35:27 2011 -0700
-  
-    tweak the wording of the websites
+    add metacpan to POD 
 
-  commit 634958b640623f6fd23d35f08541908aeb2ad21f
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Apr 21 14:27:49 2011 -0700
-  
-    tweaks to the extra website stuff's POD
+  Change: c6f57acbabe8350f928768bbdabd74777a0f3be7
+  Author: Apocalypse <APOCAL@cpan.org>
+  Date : 2012-01-02 18:45:11 +0000
 
-  commit 526e78e9d6bdafcfba8da31b67efb6df8ff66da7
+    update changes 
+
+  Change: daa2b4de140741352a194030b1bf7ec180a2477b
+  Author: Apocalypse <APOCAL@cpan.org>
+  Date : 2012-01-02 18:41:12 +0000
+
+    merge+fix rwstauner metacpan idea 
+
+  Change: e65a69b630d922aa783f474727d1f6c1c6a6d1d7
   Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Apr 21 13:12:45 2011 -0700
-  
+  Date : 2012-01-02 15:36:09 +0000
+
+    Merge pull request #4 from kentfredric/betterlogging
+
+    Log via self instead of zilla for better prefixes. 
+
+  Change: 08d8cd8ff6d81202c15511db24739d7552a4a56a
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2012-01-02 15:34:25 +0000
+
+    Merge pull request #2 from rwstauner/spell-test-fixes
+
+    Fix descriptions to avoid angering Test::Spelling 
+
+  Change: 7b54dfbeb6ccf0b164c61e47dc8a46ae981eeab4
+  Author: Kent Fredric <kentfredric@gmail.com>
+  Date : 2011-10-08 05:20:44 +0000
+
+    Make the warning message more clear.
+
+    The mere reporting of "both" is a bit ambiguous, as is the location
+    that it is having trouble finding the information in.
+
+    Hopefully, specifying that it was looking in the distmeta and showing
+    where in the distmeta it was looking will prove helpful 
+
+  Change: b76755733e50108fbe37c176aa6ba18276626c37
+  Author: Kent Fredric <kentfredric@gmail.com>
+  Date : 2011-10-08 03:07:52 +0000
+
+    Log via self instead of zilla for better prefixes.
+
+    As explained by RJBS on bug rt#69033
+
+    https://rt.cpan.org/Public/Bug/Display.html?id=69033
+
+    If you call `$self->log_*` instead of `$zilla->log_*` , a whole bunch
+    of prefixing magic will occur, and this will mean instead of the
+    useless
+
+    Repository information missing and you wanted: both
+
+    Appearing seemingly out of nowhere, where you have to randomly turn
+    off modules in Dist.ini *just* to discover it happens during
+    `POD::Weaver`, and *then* spending time to realise their dzil bundle
+    secretly also loads a `Pod::Weaver` bundle, and *then* realise that
+    `Section` is to blame by reading the source for the `Section` plugin
+    ( a reasonably painful chain of events I assure you ), instead, you
+    get:
+
+    [@Filter/PodWeaver] [@DAGOLDEN/Support] Repository information
+    missing
+
+    and you wanted: both
+
+    or something similar, Which is about a thousand times more
+    informative. 
+
+  Change: debedd8626b48f3f061f8973fc513a639d54ffd0
+  Author: Randy Stauner <randy@magnificent-tears.com>
+  Date : 2011-08-01 08:36:39 +0000
+
+    Add metacpan to websites 
+
+  Change: 5eeb581856b24dfe97348fe35394e7651554f8a1
+  Author: Randy Stauner <randy@magnificent-tears.com>
+  Date : 2011-06-15 11:43:33 +0000
+
+    Fix descriptions to avoid angering Test::Spelling
+
+    * fix typo in annocpan description * reword description of matrix
+    website 
+
+  Change: 5445ec50f0c083aef3d56b2e170bdfaecf2cdae0
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 17:23:18 +0000
+
+    add todo about kobesearch 
+
+------------------------------------------
+version 1.004 at 2011-04-21 21:49:30 +0000
+------------------------------------------
+
+  Change: 78a011c7af2801de58b89e814643951c8fe12815
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 14:49:30 +0000
+
+    New CPAN release of Pod-Weaver-Section-Support - v1.004
+
+    Released: 2011-04-21 21:48:17 UTC
+
+    Tweaked the output of the websites so it also includes a descriptive
+    text of the link
+
+    Add the deps.cpantesters.org website ( deps ) to the website list 
+
+  Change: c1e0e0cf2d63af353ad58538128ec2da18ec4821
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 14:48:14 +0000
+
+    shut up perlcritic about BooleanGrep 
+
+  Change: 1bb8f816fdfe80cc3851e364c280fe3207f7a3fc
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 14:41:41 +0000
+
+    tweak the perldoc output to always use main_module's name 
+
+  Change: d4f54beb622790e3b490533f8cb35eb32eb6898f
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 14:35:27 +0000
+
+    tweak the wording of the websites 
+
+  Change: 634958b640623f6fd23d35f08541908aeb2ad21f
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 14:27:49 +0000
+
+    tweaks to the extra website stuff's POD 
+
+  Change: 526e78e9d6bdafcfba8da31b67efb6df8ff66da7
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2011-04-21 13:12:45 +0000
+
     add descriptive text to websites and add deps website 
 
-=======================================
-2011-02-24 10:03:25 -0700 release-1.003
-=======================================
+------------------------------------------
+version 1.003 at 2011-02-24 17:03:25 +0000
+------------------------------------------
 
-  commit eada4545506f2fb556eac2b168b15265cbe5b723
+  Change: eada4545506f2fb556eac2b168b15265cbe5b723
   Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Feb 24 10:03:25 2011 -0700
-  
+  Date : 2011-02-24 10:03:25 +0000
+
     New CPAN release of Pod-Weaver-Section-Support - v1.003
 
     Released: 2011-02-24 17:03:11 UTC
@@ -51,23 +171,23 @@
     them in a weaver.ini ( thanks XENO! )
 
     The email attribute didn't add C<> to the address if you specified
-    your own ( thanks XENO! )
+    your own ( thanks XENO! ) 
 
-  commit 8108f7ea55b63cb043224837e875e2354ee25223
+  Change: 8108f7ea55b63cb043224837e875e2354ee25223
   Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Feb 24 09:34:17 2011 -0700
-  
+  Date : 2011-02-24 10:00:48 +0000
+
     change *_content to arrayref, add extra sanity checks for
     bugs_content, and properly mangle email addr 
 
-=======================================
-2011-02-02 15:55:22 -0700 release-1.002
-=======================================
+------------------------------------------
+version 1.002 at 2011-02-02 22:55:22 +0000
+------------------------------------------
 
-  commit 6cf5e140a252eb221c6c61be466a3e2f9d7ec5bc
+  Change: 6cf5e140a252eb221c6c61be466a3e2f9d7ec5bc
   Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Feb 2 15:55:22 2011 -0700
-  
+  Date : 2011-02-02 15:55:22 +0000
+
     New CPAN release of Pod-Weaver-Section-Support - v1.002
 
     Released: 2011-02-02 22:55:07 UTC
@@ -82,306 +202,44 @@
 
     Add attribute to specify the bugs content ( thanks DAGOLDEN! )
 
-    Add attribute to specify the website content
+    Add attribute to specify the website content 
 
-  commit 4bfbd61b4d9443aa7a50b0cd73b3c27f538a5011
+  Change: 4bfbd61b4d9443aa7a50b0cd73b3c27f538a5011
   Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Feb 2 15:54:52 2011 -0700
-  
-    rename the email attr for clarity
+  Date : 2011-02-02 15:54:52 +0000
 
-  commit 83645accb5d5771d4aceb10bfce1fe9e9caaf75e
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Feb 2 14:15:10 2011 -0700
-  
-    more stopwords
+    rename the email attr for clarity 
 
-  commit d1bbbbb155f7e74c7043c8b4b13de301a4b74950
+  Change: 83645accb5d5771d4aceb10bfce1fe9e9caaf75e
   Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Feb 2 14:04:53 2011 -0700
-  
-    add email section and more tweaks of POD
+  Date : 2011-02-02 14:15:10 +0000
 
-  commit f1d296cbcde8b63ff3cba9795df4fc1bdeee8706
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Thu Dec 16 12:55:54 2010 -0700
-  
-    tweak stopword list
+    more stopwords 
 
-  commit 21411f55723d94f958be71b595e0dc96170f697e
+  Change: d1bbbbb155f7e74c7043c8b4b13de301a4b74950
   Author: Apocalypse <perl@0ne.us>
-  Date:   Mon Dec 13 19:19:53 2010 -0700
-  
-    fix typo in POD
+  Date : 2011-02-02 14:04:53 +0000
 
-  commit 9c97ae09042493234fc501455e0e7ff34f8db686
+    add email section and more tweaks of POD 
+
+  Change: f1d296cbcde8b63ff3cba9795df4fc1bdeee8706
   Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Dec 8 00:36:14 2010 -0700
-  
+  Date : 2010-12-16 12:55:54 +0000
+
+    tweak stopword list 
+
+  Change: 21411f55723d94f958be71b595e0dc96170f697e
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2010-12-13 19:19:53 +0000
+
+    fix typo in POD 
+
+  Change: 9c97ae09042493234fc501455e0e7ff34f8db686
+  Author: Apocalypse <perl@0ne.us>
+  Date : 2010-12-08 00:36:14 +0000
+
     new release tarball 
 
-=======================================
-2010-12-08 00:35:51 -0700 release-1.001
-=======================================
-
-  commit b166f972db214105bae0b64c5202f43adb885c14
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Dec 8 00:35:51 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v1.001
-
-    Released: 2010-12-08 07:35:41 UTC
-
-    Add attributes to control the repository section ( thanks RWSTAUNER!
-    )
-
-    Reorganized the layout of the generated POD
-
-    Add attribute to control the website links ( thanks GETTY! )
-
-    Add attributes for new irc section ( thanks GETTY! )
-
-    Add attribute to control the bugs section ( thanks GETTY! )
-
-    Add attribute to enable/disable perldoc section ( thanks GETTY! )
-
-    Add attribute to enable/disable SUPPORT section for all modules (
-    thanks GETTY! )
-
-  commit 75389d8371967b980846cf5324ee03d35aba900a
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Dec 8 00:35:34 2010 -0700
-  
-    reformat some text
-
-  commit 922eeefe8d745ae244ecd4f207101ca40f672e97
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed Dec 8 00:04:27 2010 -0700
-  
-    massive change to add lots of new features, yay
-
-  commit 996e9ce8a1107972cd2a0e660a6c56368590cf01
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun Dec 5 23:12:40 2010 -0700
-  
-    merge in changes from RWSTAUNER regarding repository control,
-    thanks\!
-
-  commit f9c8bc661828985bcd6bc776952b5ce448c75204
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sat Dec 4 16:32:55 2010 -0700
-  
-    move source code into separate header
-
-  commit 781117572251df9edcbe5031aa3210661b7154c1
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sat Dec 4 16:00:38 2010 -0700
-  
-    tweak dist.ini
-
-  commit 8e46473961de77abf377f7037e9c84f414943342
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sat Dec 4 15:13:20 2010 -0700
-  
-    tweak dist.ini to remove redundant stuff from global config.ini
-
-  commit 06df2c4aa6e7c6ab869961b001b742519b5ee260
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sat Dec 4 15:00:02 2010 -0700
-  
-    refactored repo stuff to make it more clearer + integrate META v2
-    stuff
-
-  commit 559cabc61394710aace59b0d0006e6296742ca58
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun May 30 11:05:08 2010 -0700
-  
-    released tarball 
-
-=======================================
-2010-05-30 11:03:58 -0700 release-1.000
-=======================================
-
-  commit 9417a91dca255636d2e5fa08a3f69507bdc00676
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun May 30 11:03:58 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v1.000
-
-    Released: 2010-05-30 18:03:49 UTC
-
-    Work with CPAN Meta v2 by recognizing the repository
-
-    Make the repository hunk of POD optional
-
-  commit eb1ae90464a06699b5444cb38608f0de1865c8ce
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun May 30 11:03:32 2010 -0700
-  
-    fix gitignore for the last time
-
-  commit 8af3ba6dbd1f5c22282df40090322b10e8a7f60b
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun May 30 10:58:26 2010 -0700
-  
-    fix gitignore problem
-
-  commit 8eb54cab0da595706b15cc4174b6a315e131a672
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sat May 29 13:28:28 2010 -0700
-  
-    add dzil v3 support 
-
-=======================================
-2010-05-28 10:41:59 -0700 release-0.010
-=======================================
-
-  commit 9a4c58837b41b13103550dbb524e900e450d1a77
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Fri May 28 10:41:59 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.010
-
-  commit 6e0d0f2d775fda8fb060780bd36673b0864776bb
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Fri May 28 10:41:25 2010 -0700
-  
-    use is_pod=1 to set a different stopword POD section
-
-  commit 3dc4c2bd4e2791555474447db3bca940e4a6e77c
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Sun May 16 10:05:39 2010 -0700
-  
-    use one line for stopwords instead of multiple lines 
-
-=======================================
-2010-05-12 18:42:24 -0700 release-0.009
-=======================================
-
-  commit cf5e4ad0d54bada57e01784e6d8cceb621882b08
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed May 12 18:42:24 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.009
-
-  commit 959e2e1e09e97a8dace9034b05cd4763c6c4913f
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Wed May 12 00:45:47 2010 -0700
-  
-    add podcoverage stuff 
-
-=======================================
-2010-05-11 21:50:07 -0700 release-0.008
-=======================================
-
-  commit 11d06f193ba4ef25f87b0a15536943be2286a0c0
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 21:50:07 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.008
-
-  commit 23de49979f851c98d08ffaead84da0360689ef6b
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 21:49:56 2010 -0700
-  
-    fix how the stopword list is generated for Pod::Spell
-
-  commit a87d92fb528d82e02e930e047077d08a289095e5
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 14:14:00 2010 -0700
-  
-    add stopwords for this specific module, ha 
-
-=======================================
-2010-05-11 14:12:32 -0700 release-0.007
-=======================================
-
-  commit e8f6c168debb234c9b1e54021378437947f4a928
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 14:12:32 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.007
-
-  commit e01972ac58ca4e2cd50d71b3dc29fc2e58efcfb9
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 14:12:25 2010 -0700
-  
-    add more stopwords 
-
-=======================================
-2010-05-11 10:06:09 -0700 release-0.006
-=======================================
-
-  commit 02d0eb13a7488322d61f980f60f57df2d6a433cc
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 10:06:09 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.006
-
-  commit aac61d134fca8b0e4f83418fe5a5cac932abc52c
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Tue May 11 10:05:51 2010 -0700
-  
-    more tweaks 
-
-=======================================
-2010-05-10 23:26:34 -0700 release-0.005
-=======================================
-
-  commit 7ead60c50478154bb6baadf13e106ca362d685b5
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:26:34 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.005 
-
-=======================================
-2010-05-10 23:25:05 -0700 release-0.004
-=======================================
-
-  commit 3f53b7b71156b2aa254f8943308f8c64018c3259
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:25:05 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.004
-
-  commit 6256925c2c99cf5988765a53574034d170910126
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:24:55 2010 -0700
-  
-    add example weaver.ini 
-
-=======================================
-2010-05-10 23:16:20 -0700 release-0.003
-=======================================
-
-  commit c10e5ed3f28077dd0f8511ff55d4bc0f1478ab64
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:16:20 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.003
-
-  commit fa6815b98147ec528d2a314c6fa452749bcc79a4
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:16:09 2010 -0700
-  
-    more munging of Changes 
-
-=======================================
-2010-05-10 23:13:57 -0700 release-0.002
-=======================================
-
-  commit c606b25933124b136122f7d8f5c30ddcc2b8cd97
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:13:57 2010 -0700
-  
-    New CPAN release of Pod-Weaver-Section-Support - v0.002
-
-  commit e930672cf48d3fb9664d64b157cfe92641532c39
-  Author: Apocalypse <perl@0ne.us>
-  Date:   Mon May 10 23:13:43 2010 -0700
-  
-    add Eclipse stuff 
-
-===================================
-End of changes in the last 365 days
-===================================
+=================================================
+Plus 12 releases after 2011-01-03 00:00:00 +0000.
+=================================================

@@ -6,33 +6,35 @@ use Module::Build 0.3601;
 
 
 my %module_build_args = (
-  'build_requires' => {
-    'File::Find' => '0',
-    'File::Temp' => '0',
-    'Module::Build' => '0.3601',
-    'Test::More' => '0.88'
+  "build_requires" => {
+    "File::Find" => 0,
+    "File::Temp" => 0,
+    "Module::Build" => "0.3601",
+    "Test::More" => "0.88"
   },
-  'configure_requires' => {
-    'Module::Build' => '0.3601'
+  "configure_requires" => {
+    "Module::Build" => "0.3601"
   },
-  'dist_abstract' => 'Add a SUPPORT section to your POD',
-  'dist_author' => [
-    'Apocalypse <APOCAL@cpan.org>'
+  "dist_abstract" => "Add a SUPPORT section to your POD",
+  "dist_author" => [
+    "Apocalypse <APOCAL\@cpan.org>"
   ],
-  'dist_name' => 'Pod-Weaver-Section-Support',
-  'dist_version' => '1.004',
-  'license' => 'perl',
-  'module_name' => 'Pod::Weaver::Section::Support',
-  'recommends' => {},
-  'recursive_test_files' => 1,
-  'requires' => {
-    'Moose' => '1.03',
-    'Moose::Autobox' => '0.10',
-    'Moose::Util::TypeConstraints' => '1.01',
-    'Pod::Weaver::Role::Section' => '3.100710',
-    'perl' => '5.006'
+  "dist_name" => "Pod-Weaver-Section-Support",
+  "dist_version" => "1.005",
+  "license" => "perl",
+  "module_name" => "Pod::Weaver::Section::Support",
+  "recommends" => {},
+  "recursive_test_files" => 1,
+  "requires" => {
+    "Moose" => "1.03",
+    "Moose::Autobox" => "0.10",
+    "Moose::Util::TypeConstraints" => "1.01",
+    "Pod::Weaver::Role::Section" => "3.100710",
+    "perl" => "5.006",
+    "strict" => 0,
+    "warnings" => 0
   },
-  'script_files' => []
+  "script_files" => []
 );
 
 

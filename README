@@ -2,7 +2,7 @@ NAME
     Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 VERSION
-      This document describes v1.004 of Pod::Weaver::Section::Support - released April 21, 2011 as part of Pod-Weaver-Section-Support.
+      This document describes v1.005 of Pod::Weaver::Section::Support - released January 02, 2012 as part of Pod-Weaver-Section-Support.
 
 DESCRIPTION
     This section plugin will produce a hunk of pod that lists the various
@@ -60,12 +60,14 @@ ATTRIBUTES
     string. The ordering of the options are important, as they are reflected
     in the final POD.
 
-    Valid options are: "none", "search", "rt", "anno", "ratings", "forum",
-    "kwalitee", "testers", "testmatrix", "deps" and "all".
+    Valid options are: "none", "metacpan", "search", "rt", "anno",
+    "ratings", "forum", "kwalitee", "testers", "testmatrix", "deps" and
+    "all".
 
     The default is "all".
 
             # Where the links go to:
+            metacpan        - http://metacpan.org/release/$dist
             search          - http://search.cpan.org/dist/$dist
             rt              - http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist
             anno            - http://annocpan.org/dist/$dist
@@ -269,33 +271,31 @@ AUTHOR
     Apocalypse <APOCAL@cpan.org>
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2011 by Apocalypse.
+    This software is copyright (c) 2012 by Apocalypse.
 
     This is free software; you can redistribute it and/or modify it under
     the same terms as the Perl 5 programming language system itself.
 
-    The full text of the license can be found in the LICENSE file included
+    The full text of the license can be found in the 'LICENSE' file included
     with this distribution.
 
 DISCLAIMER OF WARRANTY
-    BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-    FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
-    OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-    PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-    EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
-    ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
-    YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
-    NECESSARY SERVICING, REPAIR, OR CORRECTION.
+    THERE IS NO WARRANTY FOR THE PROGRAM, TO THE EXTENT PERMITTED BY
+    APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT
+    HOLDERS AND/OR OTHER PARTIES PROVIDE THE PROGRAM "AS IS" WITHOUT
+    WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT
+    LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+    PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF
+    THE PROGRAM IS WITH YOU. SHOULD THE PROGRAM PROVE DEFECTIVE, YOU ASSUME
+    THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
 
     IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-    WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-    REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE LIABLE
-    TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL, OR
-    CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE
-    SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
-    RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
-    FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
-    SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
-    DAMAGES.
+    WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR
+    CONVEYS THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
+    INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES
+    ARISING OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT
+    NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES
+    SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE
+    WITH ANY OTHER PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN
+    ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
