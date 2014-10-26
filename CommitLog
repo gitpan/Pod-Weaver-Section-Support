@@ -1,245 +1,49 @@
 ==================================================
-Changes from 2011-01-03 00:00:00 +0000 to present.
+Changes from 2013-10-26 00:00:00 +0000 to present.
 ==================================================
 
 ------------------------------------------
-version 1.005 at 2012-01-03 00:48:37 +0000
+version 1.006 at 2014-10-26 05:12:23 +0000
 ------------------------------------------
 
-  Change: 509e76899b354bf294b6f5d65caf39d7df7a585b
+  Change: 89972c57690d16159fcc90ea422424574229ef0a
+  Author: Apocalypse <apocalypse@users.noreply.github.com>
+  Date : 2014-10-25 22:11:59 +0000
+
+    Merge pull request #6 from Lx/new-rt-urls
+
+    update rt.cpan.org URLs 
+
+  Change: 6714a6c47f47a31b7f42501cba0668dd2edfe7b5
   Author: Apocalypse <APOCAL@cpan.org>
-  Date : 2012-01-02 18:47:14 +0000
+  Date : 2014-10-25 22:04:39 +0000
 
-    add metacpan to POD 
+    cleanup docs and change cpants link to cpanauthors.org 
 
-  Change: c6f57acbabe8350f928768bbdabd74777a0f3be7
+  Change: 9dd604ee9aa478350ee1b1f5163998f8ea5a1a6b
   Author: Apocalypse <APOCAL@cpan.org>
-  Date : 2012-01-02 18:45:11 +0000
+  Date : 2014-10-25 21:47:49 +0000
 
-    update changes 
+    add ability to pull irc data from metadata 
 
-  Change: daa2b4de140741352a194030b1bf7ec180a2477b
+  Change: b5708edc75ebea1d40f6c91f5324780483646205
   Author: Apocalypse <APOCAL@cpan.org>
-  Date : 2012-01-02 18:41:12 +0000
+  Date : 2014-10-25 16:11:46 +0000
 
-    merge+fix rwstauner metacpan idea 
+    tweak variables so we pass Test::Vars 
 
-  Change: e65a69b630d922aa783f474727d1f6c1c6a6d1d7
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2012-01-02 15:36:09 +0000
+  Change: 6312f4f1905487f097b97e713fa10bd90d175293
+  Author: Apocalypse <APOCAL@cpan.org>
+  Date : 2014-10-25 15:49:32 +0000
 
-    Merge pull request #4 from kentfredric/betterlogging
+    updates for new packaging system 
 
-    Log via self instead of zilla for better prefixes. 
+  Change: 5f02e143e1f04789dcbd8f0133d30af9c6733b03
+  Author: Alex Peters <lxp@cpan.org>
+  Date : 2013-05-03 13:54:18 +0000
 
-  Change: 08d8cd8ff6d81202c15511db24739d7552a4a56a
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2012-01-02 15:34:25 +0000
-
-    Merge pull request #2 from rwstauner/spell-test-fixes
-
-    Fix descriptions to avoid angering Test::Spelling 
-
-  Change: 7b54dfbeb6ccf0b164c61e47dc8a46ae981eeab4
-  Author: Kent Fredric <kentfredric@gmail.com>
-  Date : 2011-10-08 05:20:44 +0000
-
-    Make the warning message more clear.
-
-    The mere reporting of "both" is a bit ambiguous, as is the location
-    that it is having trouble finding the information in.
-
-    Hopefully, specifying that it was looking in the distmeta and showing
-    where in the distmeta it was looking will prove helpful 
-
-  Change: b76755733e50108fbe37c176aa6ba18276626c37
-  Author: Kent Fredric <kentfredric@gmail.com>
-  Date : 2011-10-08 03:07:52 +0000
-
-    Log via self instead of zilla for better prefixes.
-
-    As explained by RJBS on bug rt#69033
-
-    https://rt.cpan.org/Public/Bug/Display.html?id=69033
-
-    If you call `$self->log_*` instead of `$zilla->log_*` , a whole bunch
-    of prefixing magic will occur, and this will mean instead of the
-    useless
-
-    Repository information missing and you wanted: both
-
-    Appearing seemingly out of nowhere, where you have to randomly turn
-    off modules in Dist.ini *just* to discover it happens during
-    `POD::Weaver`, and *then* spending time to realise their dzil bundle
-    secretly also loads a `Pod::Weaver` bundle, and *then* realise that
-    `Section` is to blame by reading the source for the `Section` plugin
-    ( a reasonably painful chain of events I assure you ), instead, you
-    get:
-
-    [@Filter/PodWeaver] [@DAGOLDEN/Support] Repository information
-    missing
-
-    and you wanted: both
-
-    or something similar, Which is about a thousand times more
-    informative. 
-
-  Change: debedd8626b48f3f061f8973fc513a639d54ffd0
-  Author: Randy Stauner <randy@magnificent-tears.com>
-  Date : 2011-08-01 08:36:39 +0000
-
-    Add metacpan to websites 
-
-  Change: 5eeb581856b24dfe97348fe35394e7651554f8a1
-  Author: Randy Stauner <randy@magnificent-tears.com>
-  Date : 2011-06-15 11:43:33 +0000
-
-    Fix descriptions to avoid angering Test::Spelling
-
-    * fix typo in annocpan description * reword description of matrix
-    website 
-
-  Change: 5445ec50f0c083aef3d56b2e170bdfaecf2cdae0
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 17:23:18 +0000
-
-    add todo about kobesearch 
-
-------------------------------------------
-version 1.004 at 2011-04-21 21:49:30 +0000
-------------------------------------------
-
-  Change: 78a011c7af2801de58b89e814643951c8fe12815
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 14:49:30 +0000
-
-    New CPAN release of Pod-Weaver-Section-Support - v1.004
-
-    Released: 2011-04-21 21:48:17 UTC
-
-    Tweaked the output of the websites so it also includes a descriptive
-    text of the link
-
-    Add the deps.cpantesters.org website ( deps ) to the website list 
-
-  Change: c1e0e0cf2d63af353ad58538128ec2da18ec4821
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 14:48:14 +0000
-
-    shut up perlcritic about BooleanGrep 
-
-  Change: 1bb8f816fdfe80cc3851e364c280fe3207f7a3fc
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 14:41:41 +0000
-
-    tweak the perldoc output to always use main_module's name 
-
-  Change: d4f54beb622790e3b490533f8cb35eb32eb6898f
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 14:35:27 +0000
-
-    tweak the wording of the websites 
-
-  Change: 634958b640623f6fd23d35f08541908aeb2ad21f
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 14:27:49 +0000
-
-    tweaks to the extra website stuff's POD 
-
-  Change: 526e78e9d6bdafcfba8da31b67efb6df8ff66da7
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-04-21 13:12:45 +0000
-
-    add descriptive text to websites and add deps website 
-
-------------------------------------------
-version 1.003 at 2011-02-24 17:03:25 +0000
-------------------------------------------
-
-  Change: eada4545506f2fb556eac2b168b15265cbe5b723
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-24 10:03:25 +0000
-
-    New CPAN release of Pod-Weaver-Section-Support - v1.003
-
-    Released: 2011-02-24 17:03:11 UTC
-
-    Made sure the bugs_content and the metadata match up, otherwise it
-    will throw an error! ( thanks XENO! )
-
-    Changed the *_content attributes to arrayrefs so you can sanely use
-    them in a weaver.ini ( thanks XENO! )
-
-    The email attribute didn't add C<> to the address if you specified
-    your own ( thanks XENO! ) 
-
-  Change: 8108f7ea55b63cb043224837e875e2354ee25223
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-24 10:00:48 +0000
-
-    change *_content to arrayref, add extra sanity checks for
-    bugs_content, and properly mangle email addr 
-
-------------------------------------------
-version 1.002 at 2011-02-02 22:55:22 +0000
-------------------------------------------
-
-  Change: 6cf5e140a252eb221c6c61be466a3e2f9d7ec5bc
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-02 15:55:22 +0000
-
-    New CPAN release of Pod-Weaver-Section-Support - v1.002
-
-    Released: 2011-02-02 22:55:07 UTC
-
-    Fix a few typos in the POD
-
-    Add email section to contact the author
-
-    Make the perldoc section a proper header
-
-    Tweaked the wording of the bugs section ( thanks DAGOLDEN! )
-
-    Add attribute to specify the bugs content ( thanks DAGOLDEN! )
-
-    Add attribute to specify the website content 
-
-  Change: 4bfbd61b4d9443aa7a50b0cd73b3c27f538a5011
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-02 15:54:52 +0000
-
-    rename the email attr for clarity 
-
-  Change: 83645accb5d5771d4aceb10bfce1fe9e9caaf75e
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-02 14:15:10 +0000
-
-    more stopwords 
-
-  Change: d1bbbbb155f7e74c7043c8b4b13de301a4b74950
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2011-02-02 14:04:53 +0000
-
-    add email section and more tweaks of POD 
-
-  Change: f1d296cbcde8b63ff3cba9795df4fc1bdeee8706
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2010-12-16 12:55:54 +0000
-
-    tweak stopword list 
-
-  Change: 21411f55723d94f958be71b595e0dc96170f697e
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2010-12-13 19:19:53 +0000
-
-    fix typo in POD 
-
-  Change: 9c97ae09042493234fc501455e0e7ff34f8db686
-  Author: Apocalypse <perl@0ne.us>
-  Date : 2010-12-08 00:36:14 +0000
-
-    new release tarball 
+    update rt.cpan.org URLs 
 
 =================================================
-Plus 12 releases after 2011-01-03 00:00:00 +0000.
+Plus 16 releases after 2013-10-26 00:00:00 +0000.
 =================================================

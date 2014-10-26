@@ -1,16 +1,15 @@
 #
 # This file is part of Pod-Weaver-Section-Support
 #
-# This software is copyright (c) 2012 by Apocalypse.
+# This software is copyright (c) 2014 by Apocalypse.
 #
 # This is free software; you can redistribute it and/or modify it under
 # the same terms as the Perl 5 programming language system itself.
 #
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
-{
-  $Pod::Weaver::Section::Support::VERSION = '1.005';
-}
+# git description: release-1.005-6-g89972c5
+$Pod::Weaver::Section::Support::VERSION = '1.006';
 BEGIN {
   $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
 }
@@ -24,6 +23,13 @@ with 'Pod::Weaver::Role::Section' => { -version => '3.100710' };
 
 sub mvp_multivalue_args { qw( websites irc bugs_content email_content irc_content repository_content websites_content ) }
 
+#pod =attr all_modules
+#pod
+#pod Enable this if you want to add the SUPPORT section to all the modules in a dist, not only the main one.
+#pod
+#pod The default is false.
+#pod
+#pod =cut
 
 has all_modules => (
 	is => 'ro',
@@ -31,6 +37,13 @@ has all_modules => (
 	default => 0,
 );
 
+#pod =attr perldoc
+#pod
+#pod Specify if you want the paragraph explaining about perldoc to be displayed or not.
+#pod
+#pod The default is true.
+#pod
+#pod =cut
 
 has perldoc => (
 	is => 'ro',
@@ -38,6 +51,20 @@ has perldoc => (
 	default => 1,
 );
 
+#pod =attr bugs
+#pod
+#pod Specify the bugtracker you want to use. You can use the CPAN RT tracker or your own, specified in the metadata.
+#pod
+#pod Valid options are: "rt", "metadata", or "none"
+#pod
+#pod If you pick the "rt" option, this module will generate a predefined block of text explaining how to use the RT system.
+#pod
+#pod If you pick the "metadata" option, this module will check the L<Dist::Zilla> metadata for the bugtracker to display. Be sure
+#pod to verify that your metadata contains both 'web' and 'mailto' keys if you want to use them in the content!
+#pod
+#pod The default is "rt".
+#pod
+#pod =cut
 
 {
 	use Moose::Util::TypeConstraints 1.01;
@@ -51,6 +78,15 @@ has perldoc => (
 	no Moose::Util::TypeConstraints;
 }
 
+#pod =attr bugs_content
+#pod
+#pod Specify the content for the bugs section.
+#pod
+#pod Please put the "{EMAIL}" and "{WEB}" placeholders somewhere!
+#pod
+#pod The default is a sufficient explanation (see L</SUPPORT>).
+#pod
+#pod =cut
 
 has bugs_content => (
 	is => 'ro',
@@ -65,8 +101,37 @@ EOPOD
 	},
 );
 
-# TODO add kobesearch to websites?
-
+#pod =attr websites
+#pod
+#pod Specify what website links you want to see. This is an array, and you can pick any combination. You can also
+#pod specify it as a comma-delimited string. The ordering of the options are important, as they are reflected in
+#pod the final POD.
+#pod
+#pod Valid options are: "none", "metacpan", "search", "rt", "anno", "ratings", "forum", "kwalitee", "testers", "testmatrix", "deps" and "all".
+#pod
+#pod The default is "all".
+#pod
+#pod 	# Where the links go to:
+#pod 	metacpan	- http://metacpan.org/release/$dist
+#pod 	search		- http://search.cpan.org/dist/$dist
+#pod 	rt		- https://rt.cpan.org/Public/Dist/Display.html?Name=$dist
+#pod 	anno		- http://annocpan.org/dist/$dist
+#pod 	ratings		- http://cpanratings.perl.org/d/$dist
+#pod 	forum		- http://cpanforum.com/dist/$dist
+#pod 	kwalitee	- http://cpants.perl.org/dist/overview/$dist
+#pod 	testers		- http://cpantesters.org/distro/$first_char/$dist
+#pod 	testmatrix	- http://matrix.cpantesters.org/?dist=$dist
+#pod 	deps		- http://deps.cpantesters.org/?module=$module
+#pod
+#pod 	# in weaver.ini
+#pod 	[Support]
+#pod 	websites = search
+#pod 	websites = forum
+#pod 	websites = testers , testmatrix
+#pod
+#pod P.S. If you know other websites that I should include here, please let me know!
+#pod
+#pod =cut
 
 # TODO how do I Moosify this into a fancy type system where it coerces from CSV strings and bla bla?
 has websites => (
@@ -75,6 +140,13 @@ has websites => (
 	default => sub { [ 'all' ] },
 );
 
+#pod =attr websites_content
+#pod
+#pod Specify the content to be displayed before the website list.
+#pod
+#pod The default is a sufficient explanation (see L</SUPPORT>).
+#pod
+#pod =cut
 
 has websites_content => (
 	is => 'ro',
@@ -88,6 +160,31 @@ EOPOD
 	},
 );
 
+#pod =attr irc
+#pod
+#pod Specify an IRC server/channel/nick for online support. You can specify as many networks/channels as you want.
+#pod The ordering of the options are important, as they are reflected in the final POD.
+#pod
+#pod You specify a network, then a list of channels/nicks to ask for support. There are two ways to format the string:
+#pod
+#pod 	servername.com,#room,nick
+#pod 	irc://servername.com/#room
+#pod
+#pod The default is none.
+#pod
+#pod 	# in weaver.ini
+#pod 	[Support]
+#pod 	irc = irc.home.org, #support, supportbot
+#pod 	irc = irc.acme.com, #acmecorp, #acmehelp, #acmenewbies
+#pod
+#pod You can also add the irc information in the distribution metadata via L<Dist::Zilla::Plugin::Metadata>.
+#pod Valid keys are 'x_irc' or 'IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
+#pod
+#pod 	# in dist.ini
+#pod 	[Metadata]
+#pod 	x_irc = irc://irc.perl.org/#perl
+#pod
+#pod =cut
 
 has irc => (
 	is => 'ro',
@@ -95,6 +192,13 @@ has irc => (
 	default => sub { [ ] },
 );
 
+#pod =attr irc_content
+#pod
+#pod Specify the content to be displayed before the irc network/channel list.
+#pod
+#pod The default is a sufficient explanation (see L</SUPPORT>).
+#pod
+#pod =cut
 
 has irc_content => (
 	is => 'ro',
@@ -110,6 +214,23 @@ EOPOD
 	},
 );
 
+#pod =attr repository_link
+#pod
+#pod Specify which url to use when composing the external link.
+#pod The value corresponds to the repository meta resources (for dzil v3 with CPAN Meta v2).
+#pod
+#pod Valid options are: "url", "web", "both", or "none".
+#pod
+#pod "both" will include links to both the "url" and "web" in separate POD paragraphs.
+#pod
+#pod "none" will skip the repository item entirely.
+#pod
+#pod The default is "both".
+#pod
+#pod An error will be thrown if a specified link is not found
+#pod because if you said that you wanted it you probably expect it to be there.
+#pod
+#pod =cut
 
 {
 	use Moose::Util::TypeConstraints 1.01;
@@ -123,6 +244,13 @@ EOPOD
 	no Moose::Util::TypeConstraints;
 }
 
+#pod =attr repository_content
+#pod
+#pod Specify the content to be displayed before the link to the source code repository.
+#pod
+#pod The default is a sufficient explanation (see L</SUPPORT>).
+#pod
+#pod =cut
 
 has repository_content => (
 	is => 'ro',
@@ -137,6 +265,15 @@ EOPOD
 	},
 );
 
+#pod =attr email
+#pod
+#pod Specify an email address here so users can contact you directly for help.
+#pod
+#pod If you supply a string without '@' in it, we assume it is a PAUSE id and mangle it into 'USER at cpan.org'.
+#pod
+#pod The default is none.
+#pod
+#pod =cut
 
 has email => (
 	is => 'ro',
@@ -144,6 +281,15 @@ has email => (
 	default => undef,
 );
 
+#pod =attr email_content
+#pod
+#pod Specify the content for the email section.
+#pod
+#pod Please put the "{EMAIL}" placeholder somewhere!
+#pod
+#pod The default is a sufficient explanation ( see L</SUPPORT>).
+#pod
+#pod =cut
 
 has email_content => (
 	is => 'ro',
@@ -196,7 +342,7 @@ sub weave_section {
 }
 
 sub _add_email {
-	my( $self, $zilla ) = @_;
+	my $self = shift;
 
 	# Do we have anything to do?
 	return () if ! defined $self->email;
@@ -234,7 +380,7 @@ sub _add_bugs {
 	if ( $self->bugs eq 'rt' ) {
 		my $dist = $zilla->name;
 		my $mailto = "C<bug-" . lc( $dist ) . " at rt.cpan.org>";
-		my $web = "L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=$dist>";
+		my $web = "L<https://rt.cpan.org/Public/Bug/Report.html?Queue=$dist>";
 
 		$text =~ s/\{WEB\}/$web/;
 		$text =~ s/\{EMAIL\}/$mailto/;
@@ -301,29 +447,54 @@ EOPOD
 }
 
 sub _add_irc {
-	my( $self, $zilla ) = @_;
+	my $self = shift;
+	my $zilla = shift;
 
-	# Do we have anything to do?
-	return () if ! scalar @{ $self->irc };
+	my @irc;
+
+	# Did the user specify it as metadata in Dist::Zilla?
+	if ( exists $zilla->distmeta->{'x_irc'} or exists $zilla->distmeta->{'IRC'} ) {
+		die 'You specified the IRC information twice: in the metadata and in this plugin, please pick one!' if scalar @{ $self->irc };
+
+		# we follow the irc://irc.perl.org/#roomname format
+		my $x_irc = exists $zilla->distmeta->{'x_irc'} ? $zilla->distmeta->{'x_irc'} : $zilla->distmeta->{'IRC'};
+		if ( $x_irc =~ m|^irc://([^/]+)/(.+)$| ) {
+			push( @irc, "$1,$2" );
+		} else {
+			die "The IRC metadata needs to be in the proper format: 'irc://servername.com/#room' but yours was: $x_irc";
+		}
+	} else {
+		# Do we have anything to do?
+		if ( scalar @{ $self->irc } ) {
+			@irc = @{ $self->irc };
+		} else {
+			return ();
+		}
+	}
 
 	my @networks;
-	foreach my $entry ( @{ $self->irc } ) {
-		# Split it into fields
-		my @data = split( /\,/, $entry );
-		$_ =~ s/^\s+//g for @data;
-		$_ =~ s/\s+$//g for @data;
+	foreach my $entry ( @irc ) {
+		my( $net, @chans, @nicks );
+		if ( $entry =~ m|^irc://([^/]+)/(.+)$| ) {
+			$net = $1;
+			push( @chans, $2 );
+		} else {
+			# Split it into fields
+			my @data = split( /\,/, $entry );
+			$_ =~ s/^\s+//g for @data;
+			$_ =~ s/\s+$//g for @data;
 
-		# Add the network data!
-		my $net = shift @data;
-		my @chans;
-		my @nicks;
-		foreach my $e ( @data ) {
-			if ( $e =~ /^\#/ ) {
-				push( @chans, $e );
-			} else {
-				push( @nicks, $e );
+			# Add the network data!
+			$net = shift @data;
+			foreach my $e ( @data ) {
+				if ( $e =~ /^\#/ ) {
+					push( @chans, $e );
+				} else {
+					push( @nicks, $e );
+				}
 			}
 		}
+
 		my $text = "You can connect to the server at '$net'";
 		if ( @chans ) {
 			if ( @chans > 1 ) {
@@ -498,7 +669,10 @@ sub _add_websites {
 		$main_module =~ s|^lib/||i;
 		$main_module =~ s/\.pm$//;
 		$main_module =~ s|/|::|g;
-		push( @links, $self->$type( $zilla->name, $main_module ) );
+
+		# TODO I'm too lazy to build a proper dispatch table...
+		no strict 'refs';
+		push( @links, &$type( $zilla->name, $main_module ) );
 	}
 
 	return Pod::Elemental::Element::Nested->new( {
@@ -524,7 +698,7 @@ sub _add_websites {
 }
 
 sub _add_websites_metacpan {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'MetaCPAN', <<"EOF" );
 A modern, open-source CPAN search engine, useful to view POD in HTML format.
@@ -534,7 +708,7 @@ EOF
 }
 
 sub _add_websites_search {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'Search CPAN', <<"EOF" );
 The default CPAN search engine, useful to view POD in HTML format.
@@ -544,17 +718,17 @@ EOF
 }
 
 sub _add_websites_rt {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( "RT: CPAN's Bug Tracker", <<"EOF" );
 The RT ( Request Tracker ) website is the default bug/issue tracking system for CPAN.
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist>
+L<https://rt.cpan.org/Public/Dist/Display.html?Name=$dist>
 EOF
 }
 
 sub _add_websites_anno {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'AnnoCPAN', <<"EOF" );
 The AnnoCPAN is a website that allows community annotations of Perl module documentation.
@@ -564,7 +738,7 @@ EOF
 }
 
 sub _add_websites_ratings {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'CPAN Ratings', <<"EOF" );
 The CPAN Ratings is a website that allows community ratings and reviews of Perl modules.
@@ -574,7 +748,7 @@ EOF
 }
 
 sub _add_websites_forum {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'CPAN Forum', <<"EOF" );
 The CPAN Forum is a web forum for discussing Perl modules.
@@ -584,18 +758,17 @@ EOF
 }
 
 sub _add_websites_kwalitee {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
-	# TODO add link for http://perl-qa.hexten.net/wiki/index.php/Kwalitee ?
 	return _make_item( 'CPANTS', <<"EOF" );
 The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
 
-L<http://cpants.perl.org/dist/overview/$dist>
+L<http://cpants.cpanauthors.org/dist/overview/$dist>
 EOF
 }
 
 sub _add_websites_testers {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	my $first_char = substr( $dist, 0, 1 );
 
@@ -607,7 +780,7 @@ EOF
 }
 
 sub _add_websites_testmatrix {
-	my( $self, $dist, $module ) = @_;
+	my $dist = shift;
 
 	return _make_item( 'CPAN Testers Matrix', <<"EOF" );
 The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
@@ -617,7 +790,7 @@ EOF
 }
 
 sub _add_websites_deps {
-	my( $self, $dist, $module ) = @_;
+	my $module = $_[1];
 
 	return _make_item( 'CPAN Testers Dependencies', <<"EOF" );
 The CPAN Testers Dependencies is a website that shows a chart of the test results of all dependencies for a distribution.
@@ -647,14 +820,15 @@ sub _make_item {
 
 1;
 
-
 __END__
+
 =pod
 
-=for :stopwords Apocalypse cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee
-diff irc mailto metadata placeholders dist dzil repo
+=encoding UTF-8
 
-=encoding utf-8
+=for :stopwords Apocalypse Alex Fredric Kent Peters Randy Stauner cpan testmatrix url
+annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata
+placeholders metacpan dist dzil repo
 
 =for Pod::Coverage weave_section mvp_multivalue_args
 
@@ -664,7 +838,7 @@ Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 =head1 VERSION
 
-  This document describes v1.005 of Pod::Weaver::Section::Support - released January 02, 2012 as part of Pod-Weaver-Section-Support.
+  This document describes v1.006 of Pod::Weaver::Section::Support - released October 25, 2014 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
@@ -728,7 +902,7 @@ The default is "all".
 	# Where the links go to:
 	metacpan	- http://metacpan.org/release/$dist
 	search		- http://search.cpan.org/dist/$dist
-	rt		- http://rt.cpan.org/NoAuth/Bugs.html?Dist=$dist
+	rt		- https://rt.cpan.org/Public/Dist/Display.html?Name=$dist
 	anno		- http://annocpan.org/dist/$dist
 	ratings		- http://cpanratings.perl.org/d/$dist
 	forum		- http://cpanforum.com/dist/$dist
@@ -756,7 +930,10 @@ The default is a sufficient explanation (see L</SUPPORT>).
 Specify an IRC server/channel/nick for online support. You can specify as many networks/channels as you want.
 The ordering of the options are important, as they are reflected in the final POD.
 
-You specify a network, then a list of channels/nicks to ask for support.
+You specify a network, then a list of channels/nicks to ask for support. There are two ways to format the string:
+
+	servername.com,#room,nick
+	irc://servername.com/#room
 
 The default is none.
 
@@ -764,6 +941,13 @@ The default is none.
 	[Support]
 	irc = irc.home.org, #support, supportbot
 	irc = irc.acme.com, #acmecorp, #acmehelp, #acmenewbies
+
+You can also add the irc information in the distribution metadata via L<Dist::Zilla::Plugin::Metadata>.
+Valid keys are 'x_irc' or 'IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
+
+	# in dist.ini
+	[Metadata]
+	x_irc = irc://irc.perl.org/#perl
 
 =head2 irc_content
 
@@ -826,6 +1010,14 @@ in addition to those websites please use your favorite search engine to discover
 
 =item *
 
+MetaCPAN
+
+A modern, open-source CPAN search engine, useful to view POD in HTML format.
+
+L<http://metacpan.org/release/Pod-Weaver-Section-Support>
+
+=item *
+
 Search CPAN
 
 The default CPAN search engine, useful to view POD in HTML format.
@@ -844,7 +1036,7 @@ L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=Pod-Weaver-Section-Support>
 
 AnnoCPAN
 
-The AnnoCPAN is a website that allows community annonations of Perl module documentation.
+The AnnoCPAN is a website that allows community annotations of Perl module documentation.
 
 L<http://annocpan.org/dist/Pod-Weaver-Section-Support>
 
@@ -870,7 +1062,7 @@ CPANTS
 
 The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
 
-L<http://cpants.perl.org/dist/overview/Pod-Weaver-Section-Support>
+L<http://cpants.cpanauthors.org/dist/overview/Pod-Weaver-Section-Support>
 
 =item *
 
@@ -884,7 +1076,7 @@ L<http://www.cpantesters.org/distro/P/Pod-Weaver-Section-Support>
 
 CPAN Testers Matrix
 
-The CPAN Testers Matrix is a website that provides a visual way to determine what Perls/platforms PASSed for a distribution.
+The CPAN Testers Matrix is a website that provides a visual overview of the test results for a distribution on various Perls/platforms.
 
 L<http://matrix.cpantesters.org/?dist=Pod-Weaver-Section-Support>
 
@@ -943,7 +1135,7 @@ The code is open to the world, and available for you to hack on. Please feel fre
 with it, or whatever. If you want to contribute patches, please send me a diff or prod me to pull
 from your repository :)
 
-L<http://github.com/apocalypse/perl-pod-weaver-section-support>
+L<https://github.com/apocalypse/perl-pod-weaver-section-support>
 
   git clone git://github.com/apocalypse/perl-pod-weaver-section-support.git
 
@@ -951,15 +1143,35 @@ L<http://github.com/apocalypse/perl-pod-weaver-section-support>
 
 Apocalypse <APOCAL@cpan.org>
 
+=head2 CONTRIBUTORS
+
+=for stopwords Alex Peters Kent Fredric Randy Stauner
+
+=over 4
+
+=item *
+
+Alex Peters <lxp@cpan.org>
+
+=item *
+
+Kent Fredric <kentfredric@gmail.com>
+
+=item *
+
+Randy Stauner <randy@magnificent-tears.com>
+
+=back
+
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2012 by Apocalypse.
+This software is copyright (c) 2014 by Apocalypse.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
 
 The full text of the license can be found in the
-'LICENSE' file included with this distribution.
+F<LICENSE> file included with this distribution.
 
 =head1 DISCLAIMER OF WARRANTY
 
@@ -983,4 +1195,3 @@ EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
 SUCH DAMAGES.
 
 =cut
-
