@@ -33,12 +33,12 @@
     </foaf:Person>
   </helper>
   <license rdf:resource="http://dev.perl.org/licenses/" />
-  <homepage rdf:resource="http://search.cpan.org/dist/Pod-Weaver-Section-Support/" />
+  <homepage rdf:resource="https://github.com/apocalypse/perl-pod-weaver-section-support" />
   <bug-database rdf:resource="http://rt.cpan.org/Public/Dist/Display.html?Name=Pod-Weaver-Section-Support" />
   <repository>
     <GitRepository>
       <browse rdf:resource="https://github.com/apocalypse/perl-pod-weaver-section-support" />
-      <location rdf:resource="git://github.com/apocalypse/perl-pod-weaver-section-support.git" />
+      <location rdf:resource="https://github.com/apocalypse/perl-pod-weaver-section-support.git" />
     </GitRepository>
   </repository>
   <programming-language>Perl</programming-language>

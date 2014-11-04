@@ -8,11 +8,9 @@
 #
 use strict; use warnings;
 package Pod::Weaver::Section::Support;
-# git description: release-1.005-6-g89972c5
-$Pod::Weaver::Section::Support::VERSION = '1.006';
-BEGIN {
-  $Pod::Weaver::Section::Support::AUTHORITY = 'cpan:APOCAL';
-}
+# git description: release-1.006-3-g691fd83
+$Pod::Weaver::Section::Support::VERSION = '1.007';
+our $AUTHORITY = 'cpan:APOCAL';
 
 # ABSTRACT: Add a SUPPORT section to your POD
 
@@ -118,7 +116,7 @@ EOPOD
 #pod 	anno		- http://annocpan.org/dist/$dist
 #pod 	ratings		- http://cpanratings.perl.org/d/$dist
 #pod 	forum		- http://cpanforum.com/dist/$dist
-#pod 	kwalitee	- http://cpants.perl.org/dist/overview/$dist
+#pod 	kwalitee	- http://cpants.perl.org/dist/$dist
 #pod 	testers		- http://cpantesters.org/distro/$first_char/$dist
 #pod 	testmatrix	- http://matrix.cpantesters.org/?dist=$dist
 #pod 	deps		- http://deps.cpantesters.org/?module=$module
@@ -178,11 +176,11 @@ EOPOD
 #pod 	irc = irc.acme.com, #acmecorp, #acmehelp, #acmenewbies
 #pod
 #pod You can also add the irc information in the distribution metadata via L<Dist::Zilla::Plugin::Metadata>.
-#pod Valid keys are 'x_irc' or 'IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
+#pod The key is 'x_IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
 #pod
 #pod 	# in dist.ini
 #pod 	[Metadata]
-#pod 	x_irc = irc://irc.perl.org/#perl
+#pod 	x_IRC = irc://irc.perl.org/#perl
 #pod
 #pod =cut
 
@@ -452,24 +450,23 @@ sub _add_irc {
 
 	my @irc;
 
-	# Did the user specify it as metadata in Dist::Zilla?
-	if ( exists $zilla->distmeta->{'x_irc'} or exists $zilla->distmeta->{'IRC'} ) {
-		die 'You specified the IRC information twice: in the metadata and in this plugin, please pick one!' if scalar @{ $self->irc };
-
-		# we follow the irc://irc.perl.org/#roomname format
-		my $x_irc = exists $zilla->distmeta->{'x_irc'} ? $zilla->distmeta->{'x_irc'} : $zilla->distmeta->{'IRC'};
+	# thanks to https://metacpan.org/about/metadata for the info!
+	if ( scalar @{ $self->irc } ) {
+		$self->log( 'IRC was set twice: in the metadata and in this plugin, overriding the metadata!' ) if exists $zilla->distmeta->{'x_IRC'};
+		@irc = @{ $self->irc };
+	} elsif ( exists $zilla->distmeta->{'x_IRC'} ) {
+		my $x_irc = $zilla->distmeta->{'x_IRC'};
+		if ( ref $x_irc ) { # handle the newer url/web nested spec
+			$x_irc = $x_irc->{'url'};
+		}
 		if ( $x_irc =~ m|^irc://([^/]+)/(.+)$| ) {
 			push( @irc, "$1,$2" );
 		} else {
-			die "The IRC metadata needs to be in the proper format: 'irc://servername.com/#room' but yours was: $x_irc";
-		}
-	} else {
-		# Do we have anything to do?
-		if ( scalar @{ $self->irc } ) {
-			@irc = @{ $self->irc };
-		} else {
+			$self->log( "Error: the IRC metadata needs to be in the proper format: 'irc://servername.com/#room' but yours was: $x_irc" );
 			return ();
 		}
+	} else {
+		return ();
 	}
 
 	my @networks;
@@ -763,7 +760,7 @@ sub _add_websites_kwalitee {
 	return _make_item( 'CPANTS', <<"EOF" );
 The CPANTS is a website that analyzes the Kwalitee ( code metrics ) of a distribution.
 
-L<http://cpants.cpanauthors.org/dist/overview/$dist>
+L<http://cpants.cpanauthors.org/dist/$dist>
 EOF
 }
 
@@ -826,9 +823,8 @@ __END__
 
 =encoding UTF-8
 
-=for :stopwords Apocalypse Alex Fredric Kent Peters Randy Stauner cpan testmatrix url
-annocpan anno bugtracker rt cpants kwalitee diff irc mailto metadata
-placeholders metacpan dist dzil repo
+=for :stopwords Apocalypse cpan testmatrix url annocpan anno bugtracker rt cpants kwalitee
+diff irc mailto metadata placeholders metacpan dist dzil repo
 
 =for Pod::Coverage weave_section mvp_multivalue_args
 
@@ -838,7 +834,7 @@ Pod::Weaver::Section::Support - Add a SUPPORT section to your POD
 
 =head1 VERSION
 
-  This document describes v1.006 of Pod::Weaver::Section::Support - released October 25, 2014 as part of Pod-Weaver-Section-Support.
+  This document describes v1.007 of Pod::Weaver::Section::Support - released November 04, 2014 as part of Pod-Weaver-Section-Support.
 
 =head1 DESCRIPTION
 
@@ -906,7 +902,7 @@ The default is "all".
 	anno		- http://annocpan.org/dist/$dist
 	ratings		- http://cpanratings.perl.org/d/$dist
 	forum		- http://cpanforum.com/dist/$dist
-	kwalitee	- http://cpants.perl.org/dist/overview/$dist
+	kwalitee	- http://cpants.perl.org/dist/$dist
 	testers		- http://cpantesters.org/distro/$first_char/$dist
 	testmatrix	- http://matrix.cpantesters.org/?dist=$dist
 	deps		- http://deps.cpantesters.org/?module=$module
@@ -943,11 +939,11 @@ The default is none.
 	irc = irc.acme.com, #acmecorp, #acmehelp, #acmenewbies
 
 You can also add the irc information in the distribution metadata via L<Dist::Zilla::Plugin::Metadata>.
-Valid keys are 'x_irc' or 'IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
+The key is 'x_IRC' but you have to use the irc:// format to retain compatibility with the rest of the ecosystem.
 
 	# in dist.ini
 	[Metadata]
-	x_irc = irc://irc.perl.org/#perl
+	x_IRC = irc://irc.perl.org/#perl
 
 =head2 irc_content
 
@@ -1137,7 +1133,7 @@ from your repository :)
 
 L<https://github.com/apocalypse/perl-pod-weaver-section-support>
 
-  git clone git://github.com/apocalypse/perl-pod-weaver-section-support.git
+  git clone https://github.com/apocalypse/perl-pod-weaver-section-support.git
 
 =head1 AUTHOR
 
